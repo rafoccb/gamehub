@@ -1,6 +1,6 @@
 import { api } from "@/services/api";
 
-const apiKey = process.env.NEXT_PUBLIC_RAWG_KEY
+const apiKey = process.env.RAWG_KEY
 
 export const getGames = async (page = 1) => {
     const response = await api.get(`/games`, {

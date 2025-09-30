@@ -1,7 +1,7 @@
 import { api } from "@/services/api";
 import { getDataRange } from "@/utils/date";
 
-const apiKey = process.env.NEXT_PUBLIC_RAWG_KEY
+const apiKey = process.env.RAWG_KEY
 const dates = getDataRange(180)
 
 export const getGamesForBanner = async (page = 1) => {

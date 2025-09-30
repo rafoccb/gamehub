@@ -3,8 +3,11 @@ import Header from "./components/Header";
 import BannerCard from "./components/BannerCard";
 import SearchGames from "./components/SearchGames";
 import Footer from "./components/Footer";
+import { getGamesForBanner } from "@/services/banner";
 
-export default function Home() {
+export default async function Home() {
+  const gamesBanner = await getGamesForBanner();
+
   return (
     <>
       <Header />
@@ -37,7 +40,7 @@ export default function Home() {
 
           </div>
           <div>
-            <BannerCard />
+            <BannerCard gamesBanner={gamesBanner} />
           </div>
         </div>
         <SearchGames />
