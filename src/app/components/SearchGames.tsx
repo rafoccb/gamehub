@@ -3,7 +3,7 @@ import Games from './Games';
 import { getGames } from '@/services/games';
 
 export default async function SearchGames(){
-    const games = await getGames();
+    const games = await getGames({page_size: 12, tba: false});
 
     return (
         <div className="w-full mt-12 flex flex-col items-center justify-center gap-4">

@@ -3,10 +3,11 @@ import Header from "./components/Header";
 import BannerCard from "./components/BannerCard";
 import SearchGames from "./components/SearchGames";
 import Footer from "./components/Footer";
-import { getGamesForBanner } from "@/services/banner";
+import { getGames } from "@/services/games";
+import { getDataRange } from "@/utils/date";
 
 export default async function Home() {
-  const gamesBanner = await getGamesForBanner();
+  const gamesBanner = await getGames({page_size: 3, tba: true, dates: getDataRange(180)});
 
   return (
     <>
