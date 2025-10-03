@@ -30,5 +30,14 @@ export const getGames = async (params: gameParams = {}) => {
     })
     // console.log(response.data.results)
     return response.data.results;
+}
 
+export const getGamesBySlug = async (slug: string) => {
+    const response = await api.get(`/games/${slug}`, {
+        params: {
+            key: apiKey,
+        }
+    })
+    console.log(response.data)
+    return response.data
 }
