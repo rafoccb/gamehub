@@ -38,6 +38,6 @@ export const getGamesBySlug = async (slug: string) => {
             key: apiKey,
         }
     })
-    console.log(response.data)
+    // console.log(response.data)
     return response.data
 }
