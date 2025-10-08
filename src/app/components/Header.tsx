@@ -6,9 +6,9 @@ export default function Header() {
         <header className="w-full">
             <div className="w-full max-w-2xl m-auto p-4">
                 <ul className="list-none flex items-center justify-center gap-4 mt-8">
-                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/">Início</Link></li>
-                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/buscar">Buscar</Link></li>
-                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/favoritos">Favoritos</Link></li>
+                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/">Home</Link></li>
+                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/search">Search</Link></li>
+                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/favorites">Favorites</Link></li>
                 </ul>
             </div>
             <div className="w-full max-w-2xl m-auto p-4 flex items-center justify-center">

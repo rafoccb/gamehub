@@ -41,3 +41,12 @@ export const getGamesBySlug = async (slug: string) => {
     // console.log(response.data)
     return response.data
 }
+
+export const getScreenshotByGame = async (id: number) => {
+    const response = await api.get(`/games/${id}/screenshots`, {
+        params: {
+            key: apiKey
+        }
+    })
+    return response.data
+}
