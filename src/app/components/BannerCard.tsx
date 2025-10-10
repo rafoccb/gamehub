@@ -1,10 +1,5 @@
 import Image from "next/image";
-
-type Banner = {
-    id: number;
-    name: string;
-    background_image: string;
-  }
+import { Banner } from "../types/type";
 
 export default function BannerCard({gamesBanner}: {gamesBanner : Banner[]}){
   return (

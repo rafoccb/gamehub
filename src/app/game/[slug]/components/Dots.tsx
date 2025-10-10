@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { ScreenshotImage } from "../types/screenshot";
+import { ScreenshotImage } from "../../../types/type";
 
 type DotsProps= {
     imgIndex: number;

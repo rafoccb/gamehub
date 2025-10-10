@@ -1,21 +1,7 @@
 import { Star, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-type Genre = {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-type Game = {
-    id: number;
-    name: string;
-    background_image: string;
-    rating: number;
-    genres: Genre[];
-    slug: string;
-}
+import { Game } from "../types/type";
 
 export default function Games({ games }: {games: Game[]}) {
     return(
@@ -39,13 +25,13 @@ export default function Games({ games }: {games: Game[]}) {
                         <h2 className="mt-2 font-semibold text-lg md:text-xl flex items-center justify-between gap-2"> 
                             {game.name} <Info size={18}/> 
                         </h2>
-                        <p className="w-full flex items-center justify-start flex-wrap gap-2 mt-2 mb-4 text-xs md:text-sm">
+                        <div className="w-full flex items-center justify-start flex-wrap gap-2 mt-2 mb-4 ">
                             {game.genres.map((genre) => (
-                                <span key={genre.id} className="bg-stone-700 px-3 py-1 text-white font-semibold rounded-lg">
+                                <span key={genre.id} className="bg-stone-700 px-3 py-1 text-white font-semibold rounded-lg text-xs md:text-sm">
                                     {genre.name}
                                 </span>
                             ))}
-                        </p>
+                        </div>
                     </Link>
                 </div>
             ))}

@@ -1,12 +1,15 @@
-import { getGamesBySlug, getScreenshotByGame } from "@/services/games"
+import { getGamesBySlug, getPlatforms, getScreenshotByGame } from "@/services/games"
 import { Flag, Gamepad2, Eye, Heart} from "lucide-react"
-import type { ScreenshotImage } from "./types/screenshot"
+import type { Game, ScreenshotImage } from "../../types/type"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
 import Image from "next/image"
 import Link from "next/link"
 import GameButton from "./components/GameButton"
 import CarouselSwipe from "./components/CarouselSwipe"
+import Tag from "./components/Tag"
+import RatingsChart from "./components/RatingsChart"
+import Platforms from "./components/Platforms"
 
 interface PageGameProps {
     params: {
@@ -15,31 +18,15 @@ interface PageGameProps {
     }
 }
 
-type Tags = {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-type Game = {
-    id: number;
-    name: string;
-    background_image: string;
-    background_image_additional: string;
-    tags: Tags[];
-    description_raw: string;
-}
-
-
-
 export default async function PageGame ({params} : PageGameProps) {
     const { slug } = await params
     const game: Game = await getGamesBySlug(slug)
     const screenshots: ScreenshotImage = await getScreenshotByGame(game.id)
-
-
     console.log(game)
     // console.log(screenshots)
+
+    const releaseDate = new Date(game.released).toLocaleDateString('en-US')
+
 
     let title = game.name;
     const add_description = "Stop immediatily, and go see this game! Now! You'll not regret it. Free heroes, free stuff and enhanced and balanced gameplay." 
@@ -52,17 +39,17 @@ export default async function PageGame ({params} : PageGameProps) {
             <Header/>
             <div className="w-full max-w-[1280px] m-auto py-12">
                 <div className="w-full max-h-[500px] relative md:max-h-[400px] rounded-xl">
-                    <div className="inset-0 bg-black/50 absolute rounded-xl"></div>
+                    <div className="inset-0 bg-gradient-to-t from-yellow-950/40 via-zinc-900/40 to-rose-600/30 absolute md:rounded-xl"></div>
                     <Image 
-                        src={game.background_image_additional}
+                        src={game.background_image_additional?.length > 0 ? game.background_image_additional : game.background_image}
                         alt={game.name}
                         width={1280}
                         height={500}
-                        className="w-full h-[300px] object-cover object-bottom md:h-[400px] rounded-xl"
+                        className="w-full h-[300px] object-cover object-bottom md:h-[400px] md:rounded-xl"
                     />
                 </div>
                 <div className="w-full flex flex-col justify-center items-start px-4 sm:flex-row">
-                    <div className="w-full flex flex-col items-center justify-center sm:max-w-[240px] ">
+                    <div className="w-full flex flex-col items-center justify-center sm:max-w-[240px] sm:sticky">
                         <Image
                             src={game.background_image}
                             alt={game.name}
@@ -79,21 +66,43 @@ export default async function PageGame ({params} : PageGameProps) {
                                 <GameButton label="Next to play" icon={Eye} />                          
                             </div>
                         </div>
-                        <div className="w-full p-3 flex flex-wrap items-center justify-center gap-2 sm:ml-12">
-                            {game.tags.map((tag) => (
-                                <span key={tag.id} className="text-xs bg-yellow-300 p-1 rounded-lg text-black font-semibold">
-                                    {tag.name }
-                                </span>
-                            ))}
+                        <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">
+                            <Tag tags={game.tags} />
                         </div>
                         <div></div>
                     </div>
 
                     <div className="w-full h-full p-3 mt-4 text-center sm:text-start sm:ml-3">
-                        <h1 className="text-white text-2xl font-bold sm:text-3xl md:text-4xl">
+                        <h1 className="text-white text-4xl font-bold sm:text-5xl md:text-6xl">
                             {title}
                         </h1>
+
+                        <div className="w-full flex items-start justify-center sm:justify-start gap-3 mt-2">
+                            {game.developers.map((devs) => (
+                                <div className="w-fit flex flex-wrap items-center justify-center sm:justify-start gap-2" key={devs.id}> 
+                                    <span className="text-sm sm:text-base text-gray-400 underline hover:text-white cursor-pointer">{devs.name}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <p className="text-sm sm:text-base text-gray-400 mt-1"> 
+                            Release Date: {game.tba === true ? "TBA" : releaseDate}
+                        </p>
+
+                        <div className="w-full flex items-center justify-center sm:justify-start flex-wrap gap-2 mt-4 mb-4">
+                            {game.genres.map((genre) => (
+                                <span key={genre.id} className="bg-rose-600 px-3 py-1 text-white font-semibold rounded-lg text-xs md:text-sm hover:scale-105 cursor-pointer transition-all">
+                                    {genre.name}
+                                </span>
+                            ))}
+                        </div>
+
+                        <Platforms platforms={game.platforms} />
+
+                        {/* <p className="text-red-600">card com informações: data, desenvolvedora, lojas disponíveis, plataformas disponíveis, nota? ou nota deixo na capa?</p>  */}
                         
+
+
                         {game.name === "League of Legends" && (
                             <div className="mt-4">
                                 <Link href="/game/dota-2" className="text-base font-bold text-yellow-500 animate-pulse">
@@ -106,11 +115,11 @@ export default async function PageGame ({params} : PageGameProps) {
                             {game.description_raw}
                         </p>
 
-                        <CarouselSwipe screenshots={screenshots} />
+                        <div className="w-full mt-4 inline-flex sm:hidden">
+                            <Tag tags={game.tags} />
+                        </div>
 
-                        
-
-                       
+                        <CarouselSwipe screenshots={screenshots} />        
                     </div>
                 </div>
             </div>

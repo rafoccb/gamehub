@@ -50,3 +50,12 @@ export const getScreenshotByGame = async (id: number) => {
     })
     return response.data
 }
+
+export const getPlatforms = async () => {
+    const response = await api.get("/platforms", {
+        params: {
+            key: apiKey
+        }
+    })
+    return response.data
+}

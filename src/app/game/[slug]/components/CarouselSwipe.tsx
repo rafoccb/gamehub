@@ -1,7 +1,7 @@
 "use client"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { motion, useMotionValue, useMotionValueEvent } from "framer-motion"
-import type { ScreenshotImage } from "../types/screenshot"
+import type { ScreenshotImage } from "../../../types/type"
 import { useEffect, useState } from "react"
 import Dots from "./Dots"
 import SlideButton from "./SlideButton"
@@ -68,7 +68,7 @@ export default function CarouselSwipe({ screenshots }: {screenshots: ScreenshotI
     }
 
     return (
-        <div className="relative min-h-screen overflow-hidden mt-8">
+        <div className="relative min-h-auto overflow-hidden mt-8">
             <motion.div 
                 drag="x"
                 dragConstraints={{
