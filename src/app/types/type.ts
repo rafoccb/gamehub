@@ -9,7 +9,7 @@ export type Game = {
     released: string;
     rating: number;
     rating_top: number;
-    ratings: Ratings[];
+    ratings: GameRatings[];
     tags: GameTag[];
     genres: Genre[];
     developers: Developers[];
