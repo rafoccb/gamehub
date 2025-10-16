@@ -28,7 +28,7 @@ export default function Achievements({achievements}: AchievementsProps) {
                             <span className="text-center text-sm mt-2">
                                 Click to expand the list of achievements of this game. 
                             </span>
-                            <span className="bg-rose-600 text-white text-center font-semibold text-xs mt-2 p-2 rounded-sm">{isOpen ? "Fechar" : "Mostrar"}</span>
+                            <span className="bg-rose-600 text-white text-center font-semibold text-xs mt-2 p-2 rounded-sm cursor-pointer">{isOpen ? "Fechar" : "Mostrar"}</span>
                         </div>
                     )
                 }
