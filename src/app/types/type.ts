@@ -5,6 +5,7 @@ export type Game = {
     background_image: string;
     background_image_additional: string;
     tba: boolean;
+    playtime: number;
     released: string;
     rating: number;
     rating_top: number;
@@ -27,7 +28,6 @@ export type Genre = {
     name: string;
     slug: string;
 }
-
 
 export type GameTag = {
     id: number;
@@ -64,9 +64,17 @@ export type  Platform = {
     image_background: string;
 }
 
-export type Ratings = {
+export type GameRatings = {
     id: number;
     title: string;
     count: number;
     percent: number;
+}
+
+export type GameAchievements = {
+    id: number;
+    name: string;
+    description: string;
+    image: string;
+    percent: string;
 }

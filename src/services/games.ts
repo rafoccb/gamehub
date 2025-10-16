@@ -1,3 +1,4 @@
+import { GameAchievements } from "@/app/types/type";
 import { api } from "@/services/api";
 import { getDataRange } from "@/utils/date";
 
@@ -58,4 +59,27 @@ export const getPlatforms = async () => {
         }
     })
     return response.data
+}
+
+export async function getAchievementsByGame (id: number) {
+    let page = 1;
+    let all: GameAchievements[] = []
+    let hasNext = true;
+
+    while(hasNext) {
+        const response = await api.get(`games/${id}/achievements`, {
+            params: {
+                key: apiKey,
+                page
+            }
+        })
+
+        const data = response.data;
+        all = [...all, ...data.results]
+
+        hasNext = !!data.next;
+        page++;
+
+    }
+    return all;
 }

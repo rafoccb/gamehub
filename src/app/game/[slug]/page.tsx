@@ -1,4 +1,4 @@
-import { getGamesBySlug, getPlatforms, getScreenshotByGame } from "@/services/games"
+import { getAchievementsByGame, getGamesBySlug, getScreenshotByGame } from "@/services/games"
 import { Flag, Gamepad2, Eye, Heart} from "lucide-react"
 import type { Game, ScreenshotImage } from "../../types/type"
 import Footer from "@/app/components/Footer"
@@ -10,6 +10,7 @@ import CarouselSwipe from "./components/CarouselSwipe"
 import Tag from "./components/Tag"
 import RatingsChart from "./components/RatingsChart"
 import Platforms from "./components/Platforms"
+import Achievements from "./components/Achievements"
 
 interface PageGameProps {
     params: {
@@ -21,9 +22,9 @@ interface PageGameProps {
 export default async function PageGame ({params} : PageGameProps) {
     const { slug } = await params
     const game: Game = await getGamesBySlug(slug)
-    const screenshots: ScreenshotImage = await getScreenshotByGame(game.id)
-    console.log(game)
-    // console.log(screenshots)
+    const screenshots: ScreenshotImage = await getScreenshotByGame(game.id)  
+    const achievements = await getAchievementsByGame(game.id)
+    const achievementsList = achievements ?? [];
 
     const releaseDate = new Date(game.released).toLocaleDateString('en-US')
 
@@ -78,6 +79,7 @@ export default async function PageGame ({params} : PageGameProps) {
                         </h1>
 
                         <div className="w-full flex items-start justify-center sm:justify-start gap-3 mt-2">
+                            <span className="text-sm sm:text-base text-gray-400">By:</span>
                             {game.developers.map((devs) => (
                                 <div className="w-fit flex flex-wrap items-center justify-center sm:justify-start gap-2" key={devs.id}> 
                                     <span className="text-sm sm:text-base text-gray-400 underline hover:text-white cursor-pointer">{devs.name}</span>
@@ -87,6 +89,9 @@ export default async function PageGame ({params} : PageGameProps) {
 
                         <p className="text-sm sm:text-base text-gray-400 mt-1"> 
                             Release Date: {game.tba === true ? "TBA" : releaseDate}
+                        </p>
+                        <p className="text-sm sm:text-base text-gray-400 mt-1"> 
+                            Playtime: {game.playtime} hours
                         </p>
 
                         <div className="w-full flex items-center justify-center sm:justify-start flex-wrap gap-2 mt-4 mb-4">
@@ -98,10 +103,6 @@ export default async function PageGame ({params} : PageGameProps) {
                         </div>
 
                         <Platforms platforms={game.platforms} />
-
-                        {/* <p className="text-red-600">card com informações: data, desenvolvedora, lojas disponíveis, plataformas disponíveis, nota? ou nota deixo na capa?</p>  */}
-                        
-
 
                         {game.name === "League of Legends" && (
                             <div className="mt-4">
@@ -119,7 +120,11 @@ export default async function PageGame ({params} : PageGameProps) {
                             <Tag tags={game.tags} />
                         </div>
 
-                        <CarouselSwipe screenshots={screenshots} />        
+                        <CarouselSwipe screenshots={screenshots} />
+
+                        {/* <RatingsChart ratings={game.ratings}/>       */}
+
+                        <Achievements achievements={achievementsList} />
                     </div>
                 </div>
             </div>
