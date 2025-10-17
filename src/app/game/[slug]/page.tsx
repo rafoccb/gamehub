@@ -8,10 +8,8 @@ import Link from "next/link"
 import GameButton from "./components/GameButton"
 import CarouselSwipe from "./components/CarouselSwipe"
 import Tag from "./components/Tag"
-import RatingsChart from "./components/RatingsChart"
 import Platforms from "./components/Platforms"
 import Achievements from "./components/Achievements"
-import Movies from "./components/Movies"
 
 interface PageGameProps {
     params: {
