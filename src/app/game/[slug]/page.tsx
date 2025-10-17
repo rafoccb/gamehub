@@ -1,4 +1,4 @@
-import { getAchievementsByGame, getGamesBySlug, getScreenshotByGame } from "@/services/games"
+import { getAchievementsByGame, getGamesBySlug, getMoviesByGame, getScreenshotByGame } from "@/services/games"
 import { Flag, Gamepad2, Eye, Heart} from "lucide-react"
 import type { Game, ScreenshotImage } from "../../types/type"
 import Footer from "@/app/components/Footer"
@@ -11,6 +11,7 @@ import Tag from "./components/Tag"
 import RatingsChart from "./components/RatingsChart"
 import Platforms from "./components/Platforms"
 import Achievements from "./components/Achievements"
+import Movies from "./components/Movies"
 
 interface PageGameProps {
     params: {
@@ -25,6 +26,9 @@ export default async function PageGame ({params} : PageGameProps) {
     const screenshots: ScreenshotImage = await getScreenshotByGame(game.id)  
     const achievements = await getAchievementsByGame(game.id)
     const achievementsList = achievements ?? [];
+
+    const movies = await getMoviesByGame(game.id);
+    console.log("MOVIES RAW:", JSON.stringify(movies, null, 2));
 
     const releaseDate = new Date(game.released).toLocaleDateString('en-US')
 
@@ -78,10 +82,10 @@ export default async function PageGame ({params} : PageGameProps) {
                             {title}
                         </h1>
 
-                        <div className="w-full flex items-start justify-center sm:justify-start gap-3 mt-2">
+                        <div className="w-full flex items-start justify-center sm:justify-start gap-1 mt-2">
                             <span className="text-sm sm:text-base text-gray-400">By:</span>
                             {game.developers.map((devs) => (
-                                <div className="w-fit flex flex-wrap items-center justify-center sm:justify-start gap-2" key={devs.id}> 
+                                <div className="w-fit flex flex-wrap items-center justify-center sm:justify-start gap-2" key={devs.id}>
                                     <span className="text-sm sm:text-base text-gray-400 underline hover:text-white cursor-pointer">{devs.name}</span>
                                 </div>
                             ))}
@@ -120,11 +124,15 @@ export default async function PageGame ({params} : PageGameProps) {
                             <Tag tags={game.tags} />
                         </div>
 
-                        <CarouselSwipe screenshots={screenshots} />
+                        <CarouselSwipe object={{type: "screenshots", results: screenshots?.results || []}} />
 
                         {/* <RatingsChart ratings={game.ratings}/>       */}
 
                         <Achievements achievements={achievementsList} />
+                         
+                        <CarouselSwipe object={{type: "movies", results: movies?.results || []}} /> 
+
+                        {/* remover os controllers se não tiver movies */}
                     </div>
                 </div>
             </div>

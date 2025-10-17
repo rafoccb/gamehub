@@ -4,7 +4,7 @@ import { getDataRange } from "@/utils/date";
 
 const apiKey = process.env.RAWG_KEY
 
-type gameParams = {
+type GameParams = {
     page?: number,
     page_size ?: number,
     tba?: boolean,
@@ -15,7 +15,7 @@ type gameParams = {
     metacritic?: string,
 }
 
-export const getGames = async (params: gameParams = {}) => {
+export const getGames = async (params: GameParams = {}) => {
     const response = await api.get(`/games`, {
         params: {
             key: apiKey,
@@ -82,4 +82,15 @@ export async function getAchievementsByGame (id: number) {
 
     }
     return all;
+}
+
+export const getMoviesByGame = async (id: number) => {
+    const response = await api.get(`/games/${id}/movies`, {
+        params: {
+            key: apiKey
+        }
+    })
+
+    return response.data
+
 }

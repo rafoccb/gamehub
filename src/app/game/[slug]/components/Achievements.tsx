@@ -2,9 +2,8 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Trophy } from "lucide-react"
+import { Trophy, ChevronDown, ChevronUp } from "lucide-react"
 import { GameAchievements } from "@/app/types/type"
-import { span } from "framer-motion/client"
 
 type AchievementsProps = {
     achievements: GameAchievements[]
@@ -16,7 +15,7 @@ export default function Achievements({achievements}: AchievementsProps) {
 
     return (
         <div className="w-full space-y-2 mt-8 bg-stone-950 rounded-3xl">
-            <div className="w-full flex flex-col items-center justify-center gap-2 mt-6" onClick={() => setIsOpen(!isOpen)}>
+            <div className="w-full flex flex-col items-center justify-center gap-2 mt-6">
                 <span className="text-center mt-6"><Trophy size={24} /></span>       
                 {
                     achievements.length <= 0 ? (
@@ -24,11 +23,13 @@ export default function Achievements({achievements}: AchievementsProps) {
                             Ops! This game doesn`t have achievements or isn`t available yet.
                         </p> 
                     ) : ( 
-                        <div className="w-full mt-1 flex flex-col items-center justify-center gap-1 mb-6">
+                        <div className="w-full mt-1 flex flex-col items-center justify-center gap-1 mb-6" onClick={() => setIsOpen(!isOpen)}>
                             <span className="text-center text-sm mt-2">
-                                Click to expand the list of achievements of this game. 
+                                {isOpen ? "Click to close the list of achievements of this game. " : "Click to expand the list of achievements of this game. "} 
                             </span>
-                            <span className="bg-rose-600 text-white text-center font-semibold text-xs mt-2 p-2 rounded-sm cursor-pointer">{isOpen ? "Fechar" : "Mostrar"}</span>
+                            <span className="bg-rose-600 text-white text-center font-semibold text-xs mt-2 p-2 rounded-sm cursor-pointer">
+                                {isOpen ? <ChevronUp size={16}/> : <ChevronDown size={16} /> } 
+                            </span>
                         </div>
                     )
                 }

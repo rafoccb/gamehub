@@ -78,3 +78,18 @@ export type GameAchievements = {
     image: string;
     percent: string;
 }
+
+export type GameMovies = {
+    id: number;
+    name: string;
+    preview: string;
+    data: {
+        480: string;
+        max: string
+    }
+}
+
+export type GameMoviesResults = {
+    count: number;
+    results: GameMovies[]
+}

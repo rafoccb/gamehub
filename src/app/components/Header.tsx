@@ -6,7 +6,9 @@ export default function Header() {
     return (
         <header className="w-full flex items-center justify-between gap-1">      
             <div className="w-full max-w-2xl m-auto p-4 flex items-center justify-center">
-                <Image src="/logo.png" alt="Logo Game Oracle" width={64} height={64} className="object-contain"></Image>
+                <Link href="/">
+                    <Image src="/logo.png" alt="Logo Game Oracle" width={64} height={64} className="object-contain" />
+                </Link>
             </div>
             <div className="w-full max-w-2xl m-auto">
                 <ul className="list-none flex items-center justify-center gap-4">
