@@ -92,5 +92,22 @@ export const getMoviesByGame = async (id: number) => {
     })
 
     return response.data
+}
 
+export const getGamesAdditions = async (id: number) => {
+    const response = await api.get(`/games/${id}/additions`, {
+        params: {
+            key: apiKey
+        }
+    })
+    return response.data;
+}
+
+export const getGamesSeries = async (id: number) => {
+    const response = await api.get(`/games/${id}/game-series`, {
+        params: {
+            key: apiKey
+        }
+    })
+    return response.data;
 }

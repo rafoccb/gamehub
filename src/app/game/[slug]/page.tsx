@@ -1,6 +1,6 @@
-import { getAchievementsByGame, getGamesBySlug, getMoviesByGame, getScreenshotByGame } from "@/services/games"
-import { Flag, Gamepad2, Eye, Heart} from "lucide-react"
-import type { Game, ScreenshotImage } from "../../types/type"
+import { getAchievementsByGame, getGamesAdditions, getGamesBySlug, getGamesSeries, getMoviesByGame, getScreenshotByGame } from "@/services/games"
+import { Flag, Gamepad2, Eye, Heart, Meh, Star} from "lucide-react"
+import type { Game, GameRatings, ScreenshotImage } from "../../types/type"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
 import Image from "next/image"
@@ -10,12 +10,14 @@ import CarouselSwipe from "./components/CarouselSwipe"
 import Tag from "./components/Tag"
 import Platforms from "./components/Platforms"
 import Achievements from "./components/Achievements"
+import Addition from "./components/Additions"
+import GameSeries from "./components/GameSeries"
 
 interface PageGameProps {
     params: {
         id: number
         slug: string
-    }
+    }    
 }
 
 export default async function PageGame ({params} : PageGameProps) {
@@ -23,10 +25,14 @@ export default async function PageGame ({params} : PageGameProps) {
     const game: Game = await getGamesBySlug(slug)
     const screenshots: ScreenshotImage = await getScreenshotByGame(game.id)  
     const achievements = await getAchievementsByGame(game.id)
-    const achievementsList = achievements ?? [];
 
-    const movies = await getMoviesByGame(game.id);
+    
+    const achievementsList = achievements ?? []
+    const movies = await getMoviesByGame(game.id)
+    const additions = await getGamesAdditions(game.id)
+    const gameSeries = await getGamesSeries(game.id)
     console.log("MOVIES RAW:", JSON.stringify(movies, null, 2));
+    // console.log(movies);
 
     const releaseDate = new Date(game.released).toLocaleDateString('en-US')
 
@@ -52,21 +58,29 @@ export default async function PageGame ({params} : PageGameProps) {
                     />
                 </div>
                 <div className="w-full flex flex-col justify-center items-start px-4 sm:flex-row">
-                    <div className="w-full flex flex-col items-center justify-center sm:max-w-[240px] sm:sticky">
-                        <Image
-                            src={game.background_image}
-                            alt={game.name}
-                            width={200}
-                            height={400}
-                            className="w-full max-w-[220px] h-[320px] rounded-2xl object-center object-cover shadow-2xl shadow-white/30 ml-0 sm:ml-12 -mt-[25%] sm:-mt-[45%] relative z-20"
-                        />
+                    <div className="w-full flex flex-col items-center justify-center sm:min-w-[240px] sm:max-w-[240px] sm:sticky">
+                        <div className="w-full flex items-center justify-center max-w-[240px] m-auto relative z-10">
+                            <div className="w-fit p-1 absolute z-50 -top-[45%] right-6 sm:right-0 bg-gradient-to-br from-zinc-900/80 to-yellow-500/80 rounded-lg shadow">
+                                <span className="text-xs text-white font-semibold flex items-center justify-center gap-1">
+                                    <Star size={12} fill="#fff"/> {game.rating}
+                                </span>
+                            </div>
+                            <Image
+                                src={game.background_image}
+                                alt={game.name}
+                                width={200}
+                                height={400}
+                                className="w-full max-w-[220px] h-[320px] rounded-2xl object-center object-cover shadow-2xl shadow-white/20 sm:ml-11 -mt-[45%] relative z-20"
+                            />
+                        </div>
                         <div className="w-full mt-4 flex flex-col items-center justify-center sm:ml-12">
                             <span className="w-full text-white mt-2 font-medium text-sm text-center">What is your bond with this game?</span>
 
-                            <div className="w-full flex flex-wrap items-center justify-center gap-3 mt-1">
+                            <div className="w-full flex flex-wrap items-center justify-center gap-2 mt-1">
                                 <GameButton label="Beaten" icon={Flag} />
+                                <GameButton label="Next to play" icon={Eye} />   
                                 <GameButton label="Playing" icon={Gamepad2} />
-                                <GameButton label="Next to play" icon={Eye} />                          
+                                <GameButton label="Dropped" icon={Meh} />                          
                             </div>
                         </div>
                         <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">
@@ -75,7 +89,7 @@ export default async function PageGame ({params} : PageGameProps) {
                         <div></div>
                     </div>
 
-                    <div className="w-full h-full p-3 mt-4 text-center sm:text-start sm:ml-3">
+                    <div className="w-full h-full p-3 mt-4 text-center sm:text-start sm:ml-5 overflow-x-hidden">
                         <h1 className="text-white text-4xl font-bold sm:text-5xl md:text-6xl">
                             {title}
                         </h1>
@@ -114,9 +128,26 @@ export default async function PageGame ({params} : PageGameProps) {
                             </div>
                         )}
 
-                        <p className="text-white text-sm sm:text-base mt-4">
-                            {game.description_raw}
-                        </p>
+                        <div className="text-white text-sm sm:text-base mt-4" 
+                            dangerouslySetInnerHTML={{ __html: game.description }}>
+                        </div>
+
+                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                            {game.ratings.map((notes) => (
+                                <div key={notes.id} className="w-full flex flex-col items-center justify-center gap-2">
+                                    <div className="w-full flex items-center justify-between">
+                                        <span className="text-xs text-yellow-200">{notes.title}</span>
+                                        <span className="text-xs text-gray-400 font-semibold">{notes.count}</span>
+                                    </div>
+                                    <div className="w-full h-[12px] rounded-lg bg-neutral-600 -mt-1">
+                                        <div className="h-[12px] bg-yellow-500 rounded-lg flex items-center justify-end pr-0.5" style={{ maxWidth: `${notes.percent}%` }}>
+                                            <span className="text-[8px] text-black font-semibold text-end">{notes.percent}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
 
                         <div className="w-full mt-4 inline-flex sm:hidden">
                             <Tag tags={game.tags} />
@@ -129,8 +160,12 @@ export default async function PageGame ({params} : PageGameProps) {
                         <Achievements achievements={achievementsList} />
                          
                         <CarouselSwipe object={{type: "movies", results: movies?.results || []}} /> 
-
                         {/* remover os controllers se não tiver movies */}
+
+                        <Addition additions={additions}/>
+
+                        <GameSeries gameSeries={gameSeries}/>
+
                     </div>
                 </div>
             </div>
@@ -138,9 +173,9 @@ export default async function PageGame ({params} : PageGameProps) {
 
 
             <div className="w-fit h-8 p-2 bg-red-600 fixed z-40 left-4 bottom-4 flex items-center justify-center rounded-2xl group">
-                <button className="w-full flex items-center justify-center gap-1 px-1 cursor-pointer">
-                    <span className="hidden group-hover:block transition-all ">Add to favorites</span>
-                    <Heart size={14} strokeWidth={3} color="#FFFFFF"/>
+                <button className="w-full flex items-center justify-center gap-1 px-1 py-0 md:px-2 md:py-2 cursor-pointer">
+                    <span className="hidden group-hover:block transition-all font-semibold italic">Add to favorites</span>
+                    <Heart strokeWidth={2} color="#FFFFFF" className="w-[16px] h-[16px] md:w-[24px] md:h-[24px]"/>
                 </button>
             </div>
             <Footer/>

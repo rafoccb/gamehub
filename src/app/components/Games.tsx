@@ -9,10 +9,10 @@ export default function Games({ games }: {games: Game[]}) {
             {games.map((game) => (
                 <div className="w-full relative" key={game.id}>
                     <Link href={`/game/${game.slug}`}>
-                        <div className="absolute top-2 right-2 w-fit p-2 bg-amber-400 rounded-xl">
-                            <span className=" text-black flex items-center justify-center gap-1 font-semibold text-sm">
-                                <Star size={16} fill="#000" />
-                                {game.rating}
+                        <div className="absolute top-2 right-2 w-fit p-2 bg-rose-500 rounded-xl">
+                            <span className=" text-white flex items-center justify-center gap-1 font-semibold text-sm">
+                                <Star size={16} fill="#fff" />
+                                {game.rating} / {game.rating_top}
                             </span>
                         </div>
                         <Image 

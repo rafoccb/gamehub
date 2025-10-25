@@ -19,6 +19,7 @@ const platformIcons: Record<string, JSX.Element> = {
     "xbox-one": <IoLogoXbox size={24} className="text-green-500" />,
     "xbox-series-x": <IoLogoXbox size={24} className="text-green-500" />,
     "xbox-old": <IoLogoXbox size={24} className="text-green-500" />,
+    "xbox360": <IoLogoXbox size={24} className="text-green-500" />,
     "nintendo-switch": <SiNintendo size={24} className="text-red-500" />,
     "nintendo-3ds": <SiNintendo size={24} className="text-red-500" />,
     "nintendo-ds": <SiNintendo size={24} className="text-red-500" />,
@@ -47,7 +48,7 @@ export default function Platforms({platforms}: PlatformProps) {
             <p>Available at: </p>
             {platforms.map((item) => (
                 <div key={item.platform.id}>
-                    <span className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-400 hover:scale-105 cursor-pointer hover:text-white">
+                    <span className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-400 hover:scale-105 cursor-pointer hover:text-white hover:underline">
                         {getPlatformIcon(item.platform.slug)} {item.platform.name}
                     </span>
                 </div>              

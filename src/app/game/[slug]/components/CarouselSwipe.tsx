@@ -1,15 +1,14 @@
 "use client"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, PlayIcon, PauseIcon } from "lucide-react"
 import { motion, useMotionValue, useMotionValueEvent } from "framer-motion"
 import type { GameMovies, GameMoviesResults, Screenshot, ScreenshotImage } from "@/app/types/type"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Dots from "./Dots"
 import SlideButton from "./SlideButton"
 
 const DRAG_BUFFER = 50;
 const ONE_SECOND = 1000;
 const AUTO_DELAY = ONE_SECOND * 10;
-
 
 type CarouselScreenshots = {
     type: "screenshots",
@@ -69,25 +68,52 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
 
         if(x <= -DRAG_BUFFER && imgIndex < object.results.length - 1) {
             setImgIndex(previousValue => previousValue + 1)
+            if(isPlaying) handlePause(imgIndex)
         } else if (x >= DRAG_BUFFER  && imgIndex > 0) {
             setImgIndex(previousValue => previousValue - 1)
+            if(isPlaying) handlePause(imgIndex)
         }
     }
 
     const nextSlide = () => {
         if(imgIndex < object.results.length - 1) {
             setImgIndex(previousValue => previousValue + 1)
+            if(isPlaying) handlePause(imgIndex)
         }
     }
 
     const prevSlide = () => {
         if(imgIndex > 0) {
             setImgIndex(previousValue => previousValue - 1)
+            if(isPlaying) handlePause(imgIndex)
+        }
+    }
+
+    // play video
+    const [isPlaying, setIsPlaying] = useState(false)
+    const refs = useRef<(HTMLVideoElement | null)[]>([]);
+    
+    const videoRef = (index: number) => (videoIndex: HTMLVideoElement | null) => {
+        refs.current[index] = videoIndex;
+    };
+
+    const handlePlay = (index: number) => {
+        if(refs.current[index]){
+            refs.current[index]?.play();
+            setIsPlaying(true)
+        }
+    }
+
+    const handlePause = (index: number) => {
+        if(!isPlaying) return
+        if(refs.current[index]){
+            refs.current[index]?.pause()
+            setIsPlaying(false)
         }
     }
 
     return ( 
-        <div className="relative min-h-auto overflow-hidden mt-8">
+        <div className="w-full relative min-h-auto overflow-hidden mt-8">
             <motion.div 
                 drag="x"
                 dragConstraints={{
@@ -119,44 +145,62 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
                     </motion.div>
                 ))}
 
-                {object.type === "movies" && object.results.map((movie) => (
+                {object.type === "movies" && object.results.map((movie, index) => (
                     <motion.div key={movie.id} 
-                        className="w-full aspect-video shrink-0 rounded-xl bg-neutral-800 bg-cover bg-center" 
+                        className="w-full aspect-video shrink-0 rounded-xl bg-cover bg-center relative z-10" 
                         transition={{
                             type: "spring",
                             mass: 3,
                             stiffness: 400,
                             damping: 50,
                         }}
-                    >
-                        <iframe
+                    > 
+                        <video
+                            ref={videoRef(index)}
                             src={movie.data.max}
-                            allowFullScreen
-                            loading="lazy"
-                            className="rounded-lg w-full h-full object-cover shadow-md"
-                        >
-                            {/* <source src={movie.data.max} type="video/mp4" /> */}
-                        </iframe>
+                            controls={false}
+                            autoPlay={false}
+                            className="w-full h-full object-cover rounded-xl border border-solid border-amber-400 absolute z-10"
+                        />  
+                    
+                        {!isPlaying && (
+                            <>
+                                <div className="inset-0 bg-black/20 absolute z-20"></div>
+                                <div className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <div className="w-14 relative z-50">
+                                        <div className="w-13 h-13 bg-yellow-600/70 animate-ping rounded-full m-auto absolute z-30"></div>
+                                        <button onClick={() => handlePlay(index)} className="w-13 h-13 p-3 rounded-full bg-yellow-500 shadow-yellow-400/20 flex items-center justify-center cursor-pointer relative z-50">                                
+                                            <PlayIcon size={32}/>
+                                        </button>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {isPlaying && (
+                            <div className="absolute inset-0 z-30 cursor-pointer" onClick={() => handlePause(index)}></div>
+                        )}
+
                     </motion.div>
                 ))}
             </motion.div>
 
             {object.results.length > 0 ?
-            <div className="w-full flex items-center justify-between gap-1">
-                <div className="w-full max-w-32 flex items-center justify-start gap-3 mt-2">
-                    <SlideButton onClick={prevSlide} icon={ChevronLeft}/>
-                    <SlideButton onClick={nextSlide} icon={ChevronRight}/>
+                <div className="w-full flex items-center justify-between gap-1">
+                    <div className="w-full max-w-32 flex items-center justify-start gap-3 mt-2">
+                        <SlideButton onClick={prevSlide} icon={ChevronLeft}/>
+                        <SlideButton onClick={nextSlide} icon={ChevronRight}/>
+                    </div>
+                    {object.type === "screenshots" 
+                        ?
+                        <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "screenshots", results: object.results || [] }}/>
+                        :
+                        <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "movies", results: object.results || [] }}/>
+                    }
                 </div>
-                {object.type === "screenshots" 
-                    ?
-                    <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "screenshots", results: object.results || [] }}/>
-                    :
-                    <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "movies", results: object.results || [] }}/>
-                }
-            </div>
-            :
-            "" 
-}
+                :
+                "" 
+            }
         </div>
     )
 }

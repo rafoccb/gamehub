@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { GameMovies, GameMoviesResults, Screenshot, ScreenshotImage } from "../../../types/type";
+import { GameMovies, Screenshot } from "../../../types/type";
 
 
 type ScreenshotDots = {
@@ -28,7 +28,7 @@ export default function Dots ({indexObject, setIndexObject, dots}: DotsProps) {
                 return <button 
                     key={index} 
                     onClick={() => setIndexObject(index)} 
-                    className={`h-3 w-3 rounded-full transition-colors ${index === indexObject ? "bg-yellow-500" : "bg-zinc-400"}`}>
+                    className={`h-3 w-3 cursor-pointer rounded-full transition-colors ${index === indexObject ? "bg-yellow-500" : "bg-zinc-400"}`}>
                 </button>
             })}
         </div>

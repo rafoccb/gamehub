@@ -11,7 +11,7 @@ export default async function SearchGames(){
     const backgroundImage = random?.background_image
     const nameImage = random?.name
 
-    console.log(backgroundImage, nameImage)
+    // console.log(backgroundImage, nameImage)
 
     return (
         <div className="w-full mt-12 flex flex-col items-center justify-center gap-4">

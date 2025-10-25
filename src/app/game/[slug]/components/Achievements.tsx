@@ -19,8 +19,8 @@ export default function Achievements({achievements}: AchievementsProps) {
                 <span className="text-center mt-6"><Trophy size={24} /></span>       
                 {
                     achievements.length <= 0 ? (
-                        <p className="text-center text-sm mt-2 mb-6 text-yellow-500 font-medium ">
-                            Ops! This game doesn`t have achievements or isn`t available yet.
+                        <p className="text-center text-sm mt-2 mb-6 px-3 text-yellow-500 font-medium ">
+                            Oops! This game doesn`t have achievements or isn`t available yet.
                         </p> 
                     ) : ( 
                         <div className="w-full mt-1 flex flex-col items-center justify-center gap-1 mb-6" onClick={() => setIsOpen(!isOpen)}>

@@ -2,6 +2,7 @@ export type Game = {
     id: number;
     name: string;
     slug: string;
+    description: string;
     background_image: string;
     background_image_additional: string;
     tba: boolean;
@@ -9,12 +10,17 @@ export type Game = {
     released: string;
     rating: number;
     rating_top: number;
+    metacritic: number;
     ratings: GameRatings[];
     tags: GameTag[];
     genres: Genre[];
     developers: Developers[];
     platforms: Platforms[];
-    description_raw: string;
+    esrb_rating: {
+        id: number;
+        name: string;
+        slug: string;
+    }[]
 }
 
 export type Banner = {
@@ -92,4 +98,36 @@ export type GameMovies = {
 export type GameMoviesResults = {
     count: number;
     results: GameMovies[]
+}
+
+export type GameAdditions = {
+    count: number;
+    results: {
+        id: number;
+        name: string;
+        slug: string;
+        released: string;
+        tba: boolean;
+        background_image: string;
+        rating: number;
+        rating_top: number;
+    }[]
+}
+
+export type GameSeriesType = {
+    count: number;
+    results: {
+        id: number;
+        slug: number;
+        name: string;
+        background_image: string;
+        released: string;
+        rating: number;
+        rating_top: number;
+        genres: {
+            id: number;
+            slug: string;
+            name: string;
+        }[]
+    }[]
 }
