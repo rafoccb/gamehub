@@ -14,7 +14,7 @@ export type Game = {
     ratings: GameRatings[];
     tags: GameTag[];
     genres: Genre[];
-    developers: Developers[];
+    developers: GameDevelopers[];
     platforms: Platforms[];
     esrb_rating: {
         id: number;
@@ -52,7 +52,7 @@ export type ScreenshotImage = {
     results: Screenshot[];
 }
 
-export type Developers = {
+export type GameDevelopers = {
     id: number;
     name: string;
     slug: string;
@@ -130,4 +130,11 @@ export type GameSeriesType = {
             name: string;
         }[]
     }[]
+}
+
+export type SearchResponse = {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Game[]
 }

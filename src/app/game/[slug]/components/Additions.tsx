@@ -25,7 +25,7 @@ export default function Addition({additions}: AdditionProps) {
                         <div className="w-xs flex-shrink-0 flex flex-col items-start justify-start gap-2 relative z-10 mt-4" key={addition.id}>
                             <Link href={`/game/${addition.slug}`}>
                                 <div className="absolute top-2 right-2 z-20 w-fit p-2 bg-rose-500 rounded-xl">
-                                    <span className="text-white flex items-center justify-center gap-1 font-semibold text-sm">
+                                    <span className="text-white flex items-center justify-center gap-1 font-semibold text-xs">
                                         {addition.rating} / 5
                                     </span>
                                 </div>

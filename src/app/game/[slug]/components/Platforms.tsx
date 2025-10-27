@@ -3,6 +3,7 @@ import { FaApple, FaLinux, FaPlaystation, FaWindows } from "react-icons/fa";
 import { GiCrossedSwords } from "react-icons/gi";
 import { SiAndroid, SiIos, SiNintendo, SiPlaystationvita, SiPlaystationportable } from "react-icons/si";
 import { IoLogoXbox} from "react-icons/io5"
+import Link from "next/link";
 
 const platformIcons: Record<string, JSX.Element> = {
     "pc": <FaWindows size={24} className="text-blue-500" />,
@@ -47,11 +48,13 @@ export default function Platforms({platforms}: PlatformProps) {
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 ">
             <p>Available at: </p>
             {platforms.map((item) => (
-                <div key={item.platform.id}>
-                    <span className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-400 hover:scale-105 cursor-pointer hover:text-white hover:underline">
-                        {getPlatformIcon(item.platform.slug)} {item.platform.name}
-                    </span>
-                </div>              
+                <Link href={`/search/platform/${item.platform.slug}`} key={item.platform.id} >
+                    <div>
+                        <span className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-400 hover:scale-105 cursor-pointer hover:text-white hover:underline">
+                            {getPlatformIcon(item.platform.slug)} {item.platform.name}
+                        </span>
+                    </div>              
+                </Link>
             ))}
         </div>
     )

@@ -1,5 +1,5 @@
 import { getAchievementsByGame, getGamesAdditions, getGamesBySlug, getGamesSeries, getMoviesByGame, getScreenshotByGame } from "@/services/games"
-import { Flag, Gamepad2, Eye, Heart, Meh, Star} from "lucide-react"
+import { Flag, Gamepad2, Eye, Heart, Meh, Star, Calendar, Clock3} from "lucide-react"
 import type { Game, GameRatings, ScreenshotImage } from "../../types/type"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
@@ -12,6 +12,8 @@ import Platforms from "./components/Platforms"
 import Achievements from "./components/Achievements"
 import Addition from "./components/Additions"
 import GameSeries from "./components/GameSeries"
+import Genres from "./components/Genres"
+import Developers from "./components/Developers"
 
 interface PageGameProps {
     params: {
@@ -94,29 +96,16 @@ export default async function PageGame ({params} : PageGameProps) {
                             {title}
                         </h1>
 
-                        <div className="w-full flex items-start justify-center sm:justify-start gap-1 mt-2">
-                            <span className="text-sm sm:text-base text-gray-400">By:</span>
-                            {game.developers.map((devs) => (
-                                <div className="w-fit flex flex-wrap items-center justify-center sm:justify-start gap-2" key={devs.id}>
-                                    <span className="text-sm sm:text-base text-gray-400 underline hover:text-white cursor-pointer">{devs.name}</span>
-                                </div>
-                            ))}
-                        </div>
+                        <Developers devs={game.developers} />
 
-                        <p className="text-sm sm:text-base text-gray-400 mt-1"> 
-                            Release Date: {game.tba === true ? "TBA" : releaseDate}
+                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-start gap-1"> 
+                            <Calendar size={14} /> {game.tba === true ? "TBA" : releaseDate}
                         </p>
-                        <p className="text-sm sm:text-base text-gray-400 mt-1"> 
-                            Playtime: {game.playtime} hours
+                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-start gap-1"> 
+                            <Clock3 size={14} /> {game.playtime} hours
                         </p>
 
-                        <div className="w-full flex items-center justify-center sm:justify-start flex-wrap gap-2 mt-4 mb-4">
-                            {game.genres.map((genre) => (
-                                <span key={genre.id} className="bg-rose-600 px-3 py-1 text-white font-semibold rounded-lg text-xs md:text-sm hover:scale-105 cursor-pointer transition-all">
-                                    {genre.name}
-                                </span>
-                            ))}
-                        </div>
+                        <Genres genres={game.genres} />
 
                         <Platforms platforms={game.platforms} />
 

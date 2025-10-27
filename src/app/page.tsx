@@ -4,7 +4,7 @@ import BannerCard from "./components/BannerCard";
 import SearchGames from "./components/SearchGames";
 import Footer from "./components/Footer";
 import { getGames } from "@/services/games";
-import { getDataRange } from "@/utils/date";
+import { getDataRange } from "@/utils/lib";
 
 export default async function Home() {
   const gamesBanner = await getGames({page_size: 3, tba: true, dates: getDataRange(180)});

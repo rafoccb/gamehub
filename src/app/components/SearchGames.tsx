@@ -23,7 +23,7 @@ export default async function SearchGames(){
                         alt={nameImage}
                         width={1280}
                         height={600}
-                        className='w-full h-full absolute grayscale blur-xs rounded-2xl object-cover'
+                        className='w-full h-full absolute grayscale blur-xs rounded-2xl object-cover hover:brightness-70 hover:scale-105'
                     />
                 </div>
                 <div className="w-full relative z-20 py-8">

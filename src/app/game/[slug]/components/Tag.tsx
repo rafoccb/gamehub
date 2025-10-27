@@ -12,7 +12,7 @@ export default function Tag({tags}: TagProps) {
     return (
         <div className="w-full p-3 flex flex-wrap items-center justify-center gap-2">
             {filteredTags.map((tag) => (
-                <Link href={`/search/tags/${tag.name}`} key={tag.id} >
+                <Link href={`/search/tags/${tag.slug}`} key={tag.id} >
                     <span className="text-xs bg-yellow-300 p-1 rounded-lg text-black font-semibold">
                         {tag.name}
                     </span>

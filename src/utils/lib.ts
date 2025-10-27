@@ -6,3 +6,7 @@ export const getDataRange = (days: number) => {
     pastDate.setDate(today.getDate() - days)
     return `${formatDate(pastDate)},${formatDate(today)}`
 }
+
+export function formatSlugName(slug: string): string {
+    return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+}

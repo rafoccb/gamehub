@@ -1,6 +1,6 @@
-import { GameAchievements } from "@/app/types/type";
 import { api } from "@/services/api";
-import { getDataRange } from "@/utils/date";
+import { GameAchievements, SearchResponse } from "@/app/types/type";
+import { getDataRange } from "@/utils/lib";
 
 const apiKey = process.env.RAWG_KEY
 
@@ -112,27 +112,15 @@ export const getGamesSeries = async (id: number) => {
     return response.data;
 }
 
-export const getTypeForSearchPage = async (type: string, name: string, page?: number) => {
-    let params: Record<string, string | number | undefined> = {
-        key: apiKey,
-        page,
-    }
+export const getTypeForSearchPage = async (type: string, slug: string, page?: number): Promise<SearchResponse> => {
+    const response = await api.get<SearchResponse>(`/games`, { 
+        params: {
+            key: apiKey,
+            [type]: slug,
+            page,
+        }
+    })
     
-    let endpoint = `/games`;
-
-    if(type === "tags"){
-        params.tags = name
-    } else if (type === "genres") {
-        params.genres = name
-    } else if (type === "platforms") {
-        params.platforms = name
-    } else if(type === "developers") {
-        params.developers = name
-    } else {
-        params.search = name
-    }
-    
-    const response = await api.get(endpoint, { params })
-
     return response.data;
+
 }

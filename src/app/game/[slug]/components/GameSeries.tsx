@@ -23,7 +23,7 @@ export default function GameSeries({gameSeries}: GameSeriesProps) {
                         <div className="w-xs flex-shrink-0 flex flex-col items-start justify-start gap-2 relative z-10 mt-4" key={serie.id}>
                             <Link href={`/game/${serie.slug}`}>
                                 <div className="absolute top-2 right-2 z-20 w-fit p-2 bg-rose-500 rounded-xl">
-                                    <span className="text-white flex items-center justify-center gap-1 font-semibold text-sm">
+                                    <span className="text-white flex items-center justify-center gap-1 font-semibold text-xs">
                                         {serie.rating} / 5
                                     </span>
                                 </div>
@@ -32,27 +32,29 @@ export default function GameSeries({gameSeries}: GameSeriesProps) {
                                     alt={serie.name}
                                     width={320}
                                     height={180}
-                                    className="w-xs object-cover h-[180px] rounded-xl shadow-lg"
+                                    className="w-xs object-cover h-[180px] rounded-xl shadow-lg hover:brightness-70 hover:scale-105"
                                 />
-                                <div className="w-full flex items-start justify-between gap-2">
-                                    <h1 className="text-white text-lg md:text-xl font-semibold mt-2">{serie.name}</h1>
-                                    <span className="text-gray-400 text-xs md:text-sm text-start mt-3">
-                                        {new Date(serie.released).toLocaleDateString('en-US')}
-                                    </span>
-                                </div>
-                                
-                                <div className="w-full flex flex-col items-start justify-start gap-2">
-                                    <div className="w-full flex flex-wrap items-start justify-start gap-2 mt-2 mb-2">
-                                        {serie.genres.map((genre) => (
-                                            <div className="w-fit px-3 bg-zinc-700 rounded-xl cursor-pointer hover:bg-yellow-500" key={genre.id}> 
-                                                <Link href={`/genres/${genre.slug}`} className="font-semibold text-white text-xs"> {genre.name}</Link>
-                                            </div> 
-                                        ))}
-                                    </div>
-                                    <span className="bg-rose-600 p-2 text-center text-white text-xs rounded-xl font-bold"> See more</span>
-                                </div>
-                                
                             </Link>
+                            <div className="w-full flex items-start justify-between gap-2">
+                                <h1 className="text-white text-lg md:text-xl font-semibold mt-2">{serie.name}</h1>
+                                <span className="text-gray-400 text-xs md:text-sm text-start mt-3">
+                                    {new Date(serie.released).toLocaleDateString('en-US')}
+                                </span>
+                            </div>
+                            
+                            <div className="w-full flex flex-col items-start justify-start gap-2">
+                                <div className="w-full flex flex-wrap items-start justify-start gap-2 mt-2 mb-2">
+                                    {serie.genres.map((genre) => (
+                                        <div className="w-fit px-3 bg-zinc-700 rounded-xl cursor-pointer hover:bg-yellow-500" key={genre.id}> 
+                                            <Link href={`/genres/${genre.slug}`} className="font-semibold text-white text-xs"> {genre.name}</Link>
+                                        </div> 
+                                    ))}
+                                </div>
+                                <Link href={`/game/${serie.slug}`}>
+                                    <span className="bg-rose-600 p-2 text-center text-white text-xs rounded-xl font-bold"> See more</span>
+                                </Link>
+                            </div>
+                                   
                         </div>
                     ))}
                 </div>
