@@ -18,10 +18,11 @@ type DotsObject = ScreenshotDots | MoviesDots
 type DotsProps= {
     indexObject: number;
     setIndexObject: Dispatch<SetStateAction<number>>;
-    dots: DotsObject
+    dots: DotsObject;
+    onChange?: () => void;
 }
 
-export default function Dots ({indexObject, setIndexObject, dots}: DotsProps) {
+export default function Dots ({indexObject, setIndexObject, dots, onChange}: DotsProps) {
     return(
         <div className="mt-4 flex justify-end w-full gap-2">
             {dots.results.map((img, index) => {

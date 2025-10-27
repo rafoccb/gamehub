@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { GameTag } from "../../../types/type"
 
 type TagProps = {
@@ -11,9 +12,11 @@ export default function Tag({tags}: TagProps) {
     return (
         <div className="w-full p-3 flex flex-wrap items-center justify-center gap-2">
             {filteredTags.map((tag) => (
-                <span key={tag.id} className="text-xs bg-yellow-300 p-1 rounded-lg text-black font-semibold">
-                    {tag.name}
-                </span>
+                <Link href={`/search/tags/${tag.name}`} key={tag.id} >
+                    <span className="text-xs bg-yellow-300 p-1 rounded-lg text-black font-semibold">
+                        {tag.name}
+                    </span>
+                </Link>
             ))}
         </div>
     )    

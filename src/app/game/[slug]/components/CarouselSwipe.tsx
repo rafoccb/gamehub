@@ -91,6 +91,7 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
 
     // play video
     const [isPlaying, setIsPlaying] = useState(false)
+    const [showPauseIcon, setShowPauseIcon] = useState(false)
     const refs = useRef<(HTMLVideoElement | null)[]>([]);
     
     const videoRef = (index: number) => (videoIndex: HTMLVideoElement | null) => {
@@ -108,7 +109,14 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
         if(!isPlaying) return
         if(refs.current[index]){
             refs.current[index]?.pause()
-            setIsPlaying(false)
+            
+            
+            setShowPauseIcon(true)
+            setTimeout(() => {
+                setShowPauseIcon(false)
+                setIsPlaying(false)
+            }, 300)
+            // setTimeout(() => , 300)
         }
     }
 
@@ -177,6 +185,14 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
                             </>
                         )}
 
+                        {showPauseIcon && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/0">
+                                <div className="animate-blink ease-in-out w-13 h-13 p-3 rounded-full bg-yellow-500/50 shadow-yellow-400/20 flex items-center justify-center cursor-pointer relative z-50 mr-1">
+                                    <PauseIcon size={32} />        
+                                </div>
+                            </div>
+                        )}
+
                         {isPlaying && (
                             <div className="absolute inset-0 z-30 cursor-pointer" onClick={() => handlePause(index)}></div>
                         )}
@@ -195,7 +211,7 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
                         ?
                         <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "screenshots", results: object.results || [] }}/>
                         :
-                        <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "movies", results: object.results || [] }}/>
+                        <Dots indexObject={imgIndex} setIndexObject={setImgIndex} dots={{ type: "movies", results: object.results || [] }} onChange={() => handlePause(imgIndex)}/>
                     }
                 </div>
                 :

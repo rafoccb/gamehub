@@ -31,7 +31,7 @@ export default async function PageGame ({params} : PageGameProps) {
     const movies = await getMoviesByGame(game.id)
     const additions = await getGamesAdditions(game.id)
     const gameSeries = await getGamesSeries(game.id)
-    console.log("MOVIES RAW:", JSON.stringify(movies, null, 2));
+    // console.log("MOVIES RAW:", JSON.stringify(movies, null, 2));
     // console.log(movies);
 
     const releaseDate = new Date(game.released).toLocaleDateString('en-US')
@@ -132,6 +132,10 @@ export default async function PageGame ({params} : PageGameProps) {
                             dangerouslySetInnerHTML={{ __html: game.description }}>
                         </div>
 
+                        <div className="w-full mt-4 inline-flex sm:hidden">
+                            <Tag tags={game.tags} />
+                        </div>
+
                         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                             {game.ratings.map((notes) => (
                                 <div key={notes.id} className="w-full flex flex-col items-center justify-center gap-2">
@@ -148,19 +152,11 @@ export default async function PageGame ({params} : PageGameProps) {
                             ))}
                         </div>
 
-
-                        <div className="w-full mt-4 inline-flex sm:hidden">
-                            <Tag tags={game.tags} />
-                        </div>
-
                         <CarouselSwipe object={{type: "screenshots", results: screenshots?.results || []}} />
-
-                        {/* <RatingsChart ratings={game.ratings}/>       */}
 
                         <Achievements achievements={achievementsList} />
                          
                         <CarouselSwipe object={{type: "movies", results: movies?.results || []}} /> 
-                        {/* remover os controllers se não tiver movies */}
 
                         <Addition additions={additions}/>
 
@@ -178,6 +174,7 @@ export default async function PageGame ({params} : PageGameProps) {
                     <Heart strokeWidth={2} color="#FFFFFF" className="w-[16px] h-[16px] md:w-[24px] md:h-[24px]"/>
                 </button>
             </div>
+            
             <Footer/>
         </>
     )
