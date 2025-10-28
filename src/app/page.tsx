@@ -1,4 +1,4 @@
-import { Gamepad2, Eye, MonitorCheck, MonitorPlay} from "lucide-react"
+import { Gamepad2, Eye, MonitorCheck, MonitorPlay, Play} from "lucide-react"
 import Header from "./components/Header";
 import BannerCard from "./components/BannerCard";
 import SearchGames from "./components/SearchGames";
@@ -37,8 +37,8 @@ export default async function Home() {
             </p>
 
             <div className="w-full flex items-center justify-center md:justify-start">
-              <Link href="/search" className="bg-yellow-400 text-zinc-800 font-semibold rounded-lg cursor-pointer w-full max-w-40 p-2 mt-6">
-                Get Started
+              <Link href="/search" className="bg-yellow-400 text-zinc-800 font-semibold rounded-lg cursor-pointer w-full max-w-40 p-2 mt-6 flex items-center justify-center gap-1 hover:shadow-xl hover:shadow-yellow-500/30">
+                <Play size={16} color="black" strokeWidth={3}/> Get Started
               </Link>
             </div>
 
