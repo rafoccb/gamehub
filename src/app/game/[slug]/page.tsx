@@ -14,6 +14,7 @@ import Addition from "./components/Additions"
 import GameSeries from "./components/GameSeries"
 import Genres from "./components/Genres"
 import Developers from "./components/Developers"
+import AddFavorite from "./components/AddFavorite"
 
 interface PageGameProps {
     params: {
@@ -98,14 +99,16 @@ export default async function PageGame ({params} : PageGameProps) {
 
                         <Developers devs={game.developers} />
 
-                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-start gap-1"> 
+                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-center sm:justify-start gap-1 mt-2"> 
                             <Calendar size={14} /> {game.tba === true ? "TBA" : releaseDate}
                         </p>
-                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-start gap-1"> 
+                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-center sm:justify-start gap-1"> 
                             <Clock3 size={14} /> {game.playtime} hours
                         </p>
 
+                        
                         <Genres genres={game.genres} />
+                        
 
                         <Platforms platforms={game.platforms} />
 
@@ -155,13 +158,8 @@ export default async function PageGame ({params} : PageGameProps) {
                 </div>
             </div>
 
-
-
-            <div className="w-fit h-8 p-2 bg-red-600 fixed z-40 left-4 bottom-4 flex items-center justify-center rounded-2xl group">
-                <button className="w-full flex items-center justify-center gap-1 px-1 py-0 md:px-2 md:py-2 cursor-pointer">
-                    <span className="hidden group-hover:block transition-all font-semibold italic">Add to favorites</span>
-                    <Heart strokeWidth={2} color="#FFFFFF" className="w-[16px] h-[16px] md:w-[24px] md:h-[24px]"/>
-                </button>
+            <div className="w-fit fixed z-40 left-4 bottom-4 group">
+                <AddFavorite />
             </div>
             
             <Footer/>

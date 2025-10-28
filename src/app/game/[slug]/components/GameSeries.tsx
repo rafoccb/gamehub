@@ -46,7 +46,7 @@ export default function GameSeries({gameSeries}: GameSeriesProps) {
                                 <div className="w-full flex flex-wrap items-start justify-start gap-2 mt-2 mb-2">
                                     {serie.genres.map((genre) => (
                                         <div className="w-fit px-3 bg-zinc-700 rounded-xl cursor-pointer hover:bg-yellow-500" key={genre.id}> 
-                                            <Link href={`/genres/${genre.slug}`} className="font-semibold text-white text-xs"> {genre.name}</Link>
+                                            <Link href={`/search/genres/${genre.slug}`} className="font-semibold text-white text-xs"> {genre.name}</Link>
                                         </div> 
                                     ))}
                                 </div>

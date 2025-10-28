@@ -5,9 +5,11 @@ import SearchGames from "./components/SearchGames";
 import Footer from "./components/Footer";
 import { getGames } from "@/services/games";
 import { getDataRange } from "@/utils/lib";
+import Games from "./components/Games";
 
 export default async function Home() {
   const gamesBanner = await getGames({page_size: 3, tba: true, dates: getDataRange(180)});
+  const games = await getGames({page_size: 12, tba: false});
 
   return (
     <>
@@ -44,7 +46,11 @@ export default async function Home() {
             <BannerCard gamesBanner={gamesBanner} />
           </div>
         </div>
+        
         <SearchGames />
+      
+        <Games games={games} />
+        
       </main>
 
       <Footer />

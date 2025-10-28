@@ -1,7 +1,7 @@
-import { Search } from 'lucide-react';
-import Games from './Games';
+
 import { getGames } from '@/services/games';
 import Image from 'next/image';
+import SearchForm from './SearchForm';
 
 export default async function SearchGames(){
     const games = await getGames({page_size: 12, tba: false});
@@ -10,7 +10,6 @@ export default async function SearchGames(){
     const random = games[randomBackgroundImage]
     const backgroundImage = random?.background_image
     const nameImage = random?.name
-
     // console.log(backgroundImage, nameImage)
 
     return (
@@ -52,18 +51,10 @@ export default async function SearchGames(){
                         <p className="text-gray-400 text-center mt-3"> Procure o que quiser, encontre informações sobre seu próximo jogo ou seu jogo favorito  </p>
                     </div>
 
-                    <div className="w-full flex flex-col items-center justify-center gap-4">
-                        <form action="" className="w-full flex items-center justify-center gap-3">
-                            <input type="search" placeholder="Busque um game aqui" className="w-10/12 text-sm p-5 bg-zinc-900 rounded-2xl text-white shadow-xs shadow-yellow-300 border border-transparent focus:border-yellow-400 focus:outline-none md:text-xl" />
-                            <button className='bg-yellow-500 text-zinc-800 p-5 w-fit text-center rounded-2xl cursor-pointer'> <Search /></button>
-                        </form>
-                    </div>    
+                    <SearchForm />   
+
                 </div>
             </div>       
-
-            <div className='w-full mt-8'>
-                <Games games={games} />
-            </div>
         </div>
     )
 }

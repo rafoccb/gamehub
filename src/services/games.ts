@@ -1,6 +1,7 @@
 import { api } from "@/services/api";
 import { GameAchievements, SearchResponse } from "@/app/types/type";
 import { getDataRange } from "@/utils/lib";
+import axios from "axios";
 
 const apiKey = process.env.RAWG_KEY
 
@@ -116,11 +117,11 @@ export const getTypeForSearchPage = async (type: string, slug: string, page?: nu
     const response = await api.get<SearchResponse>(`/games`, { 
         params: {
             key: apiKey,
-            [type]: slug,
             page,
+            page_size: 18,
+           [type]: slug 
         }
     })
-    
-    return response.data;
 
+    return response.data;
 }
