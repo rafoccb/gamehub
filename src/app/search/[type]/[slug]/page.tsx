@@ -33,10 +33,17 @@ export default async function PageSearch({params}: PageSearchProps) {
             <main className="w-full max-w-[1280px] m-auto py-12">
                 <div className="w-full">
                     <SearchForm />
-                    <h2 className="text-center flex items-center justify-center gap-1 mt-8">
-                        Search <ChevronRight size={14}/> 
-                        <span className="capitalize font-semibold">{type}</span> <ChevronRight size={14}/> 
-                        <span className="font-semibold text-yellow-500">{formatSlugName(slug)}</span>
+                    <h2 className="text-center mt-8">
+                        {type === "games"
+                        ? <span> Results for: <span className="font-semibold text-yellow-500">{formatSlugName(slug)} </span></span>
+                        :
+                        <span className="text-center flex items-center justify-center gap-1"> 
+                            Search <ChevronRight size={14}/> 
+                            <span className="capitalize font-semibold">{type}</span> <ChevronRight size={14}/> 
+                            <span className="font-semibold text-yellow-500">{formatSlugName(slug)}</span>
+                        </span>
+                        }
+                       
                     </h2>
                 </div>
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 content-center gap-6 mt-8 p-6">

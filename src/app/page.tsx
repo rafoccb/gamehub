@@ -20,24 +20,24 @@ export default async function Home() {
           <div className="w-full flex flex-col items-start justify-center">
             <p className="text-white flex gap-2 items-start md:items-center justify-start mt-5">
               <Gamepad2 />
-              Acompanhe sobre os jogos que você está jogando
+              Keep track of the games you are playing or played
             </p>
             <p className="text-white flex gap-2 items-start md:items-center justify-start mt-5">
               <Eye />
-              Mostre para todos os jogos que você já finalizou
+              Show or keep record of the games you already beated
             </p>
             <p className="text-white flex gap-2 items-start md:items-center justify-start mt-5">
               <MonitorCheck />
-              Descubra as plataformas disponíveis para um jogo
+              Know where you can find the games you love
             </p>
             <p className="text-white flex gap-2 items-start md:items-center justify-start mt-5">
               <MonitorPlay />
-              Descubra o próximo jogo para jogar
+              Find your next game to play
             </p>
 
             <div className="w-full flex items-center justify-center md:justify-start">
               <button className="bg-yellow-400 text-zinc-800 font-semibold rounded-lg cursor-pointer w-full max-w-40 p-2 mt-6">
-              Começar
+                Get Started
               </button>
             </div>
 

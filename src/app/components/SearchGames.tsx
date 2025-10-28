@@ -22,33 +22,35 @@ export default async function SearchGames(){
                         alt={nameImage}
                         width={1280}
                         height={600}
-                        className='w-full h-full absolute grayscale blur-xs rounded-2xl object-cover hover:brightness-70 hover:scale-105'
+                        className='w-full h-full absolute grayscale blur-xs rounded-2xl object-cover hover:brightness-70 scale-95'
                     />
                 </div>
                 <div className="w-full relative z-20 py-8">
                     <h1 className="text-white mt-8 text-4xl w-full text-center md:text-6xl">
-                        Encontre o próximo game <br />para você jogar:
+                        Find your next game <br />to play: 
                     </h1>
-                    <p className="text-gray-400 text-center mt-3">Selecione um meio de busca:</p>
+                    <p className="text-gray-400 text-center mt-3">Select a random game with the buttons below: </p>
                     <div className="w-full flex flex-wrap items-center justify-center gap-3 mt-4">
                         <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Recentes
+                            Recent
                         </button>
                         <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
                             Retro
                         </button>
                         <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Populares
+                            Popular
                         </button>
                         <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Bem Avaliados
+                            Well Rated
                         </button>
                     </div>
                         
                     <div className="w-full mt-8 p-4">
                         <hr className="w-full"/>
-                        <h2 className="text-center mt-4 text-xl md:text-3xl"> Ou </h2>
-                        <p className="text-gray-400 text-center mt-3"> Procure o que quiser, encontre informações sobre seu próximo jogo ou seu jogo favorito  </p>
+                        <h2 className="text-center mt-4 text-xl md:text-3xl"> Or </h2>
+                        <p className="text-white text-center mt-3 font-semibold"> 
+                            Search for a game. <br/> Find more about the next game you want to play. <br/> Keep track of your favorite games.
+                        </p>
                     </div>
 
                     <SearchForm />   
