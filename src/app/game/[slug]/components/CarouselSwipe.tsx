@@ -116,7 +116,6 @@ export default function CarouselSwipe({ object }: CarouselSwipeProps) {
                 setShowPauseIcon(false)
                 setIsPlaying(false)
             }, 300)
-            // setTimeout(() => , 300)
         }
     }
 

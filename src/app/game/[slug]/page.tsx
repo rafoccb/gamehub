@@ -15,6 +15,7 @@ import GameSeries from "./components/GameSeries"
 import Genres from "./components/Genres"
 import Developers from "./components/Developers"
 import AddFavorite from "./components/AddFavorite"
+import Requirements from "./components/Requirements"
 
 interface PageGameProps {
     params: {
@@ -35,7 +36,8 @@ export default async function PageGame ({params} : PageGameProps) {
     const additions = await getGamesAdditions(game.id)
     const gameSeries = await getGamesSeries(game.id)
     // console.log("MOVIES RAW:", JSON.stringify(movies, null, 2));
-    // console.log(movies);
+    console.log(game);
+    
 
     const releaseDate = new Date(game.released).toLocaleDateString('en-US')
 
@@ -145,6 +147,8 @@ export default async function PageGame ({params} : PageGameProps) {
                         </div>
 
                         <CarouselSwipe object={{type: "screenshots", results: screenshots?.results || []}} />
+
+                        <Requirements platforms={game.platforms}/>
 
                         <Achievements achievements={achievementsList} />
                          

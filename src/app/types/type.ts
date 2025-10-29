@@ -61,9 +61,13 @@ export type GameDevelopers = {
 
 export type Platforms = {
     platform: Platform  ; 
+    requirements: {
+        minimum?: string;
+        recommended?: string;
+    }
 }
 
-export type  Platform = {
+export type Platform = {
     id: number;
     name: string;
     slug: string;
