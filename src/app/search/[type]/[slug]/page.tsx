@@ -1,12 +1,12 @@
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
+import SearchButtons from "@/app/components/SearchButtons";
 import SearchForm from "@/app/components/SearchForm";
 import AddFavorite from "@/app/game/[slug]/components/AddFavorite";
-import Genres from "@/app/game/[slug]/components/Genres";
 import Platforms from "@/app/game/[slug]/components/Platforms";
 import { getTypeForSearchPage } from "@/services/games";
 import { formatSlugName } from "@/utils/lib";
-import { Calendar, ChevronRight, Star } from "lucide-react"
+import { Calendar, ChevronRight, Star, MoveRight, MoveLeft } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,16 +15,22 @@ type PageSearchProps = {
         type: string;
         slug: string;
     }
+    searchParams: Promise<{
+        page?: string;
+    }>
 }
 
-export default async function PageSearch({params}: PageSearchProps) {
+export default async function PageSearch({params, searchParams}: PageSearchProps) {
     const {type, slug} = await params;
-    console.log("tipo: ", type, "\n name: ", slug)
+    const searchPages = await searchParams;
+    
+    const currentPage = Number(searchPages.page ?? 1)
+    const nextPage = currentPage + 1;
+    const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+    // console.log("tipo: ", type, "\n name: ", slug)
 
     const typeForSearch = type === "games" ? "search" : type
-
-    const gameInfo = await getTypeForSearchPage(typeForSearch, slug);
-    // console.log(JSON.stringify(gameInfo, null, 2))
+    const gameInfo = await getTypeForSearchPage(typeForSearch, slug, currentPage);
 
     return(
         <>
@@ -32,7 +38,14 @@ export default async function PageSearch({params}: PageSearchProps) {
 
             <main className="w-full max-w-[1280px] m-auto py-12">
                 <div className="w-full">
+                     <h1 className="text-center mb-4 text-2xl md:text-5xl text-white font-bold">
+                        Find a game you love 🤍
+                    </h1>
                     <SearchForm />
+                    <div className="mt-6 flex items-center justify-center">
+                        <span className="text-center">Or discover a new (or not) random game by these choices: </span>
+                    </div>
+                    <SearchButtons />
                     <h2 className="text-center mt-8">
                         {type === "games"
                         ? <span> Results for: <span className="font-semibold text-yellow-500">{formatSlugName(slug)} </span></span>
@@ -53,10 +66,10 @@ export default async function PageSearch({params}: PageSearchProps) {
                             <Link href={`/game/${game.slug}`} className="w-full">
                                 <div className="w-full">
                                     <div className="w-full relative">
-                                        <div className="w-fit group absolute z-50 top-2 left-2">
+                                        <div className="w-fit group absolute z-20 top-2 left-2">
                                             <AddFavorite />
                                         </div>
-                                        <div className="w-fit p-1 absolute z-50 top-2 right-2 bg-gradient-to-br from-zinc-900/80 to-yellow-500/80 rounded-lg shadow">
+                                        <div className="w-fit p-1 absolute z-20 top-2 right-2 bg-gradient-to-br from-zinc-900/80 to-yellow-500/80 rounded-lg shadow">
                                             <span className="text-xs text-white font-semibold flex items-center justify-center gap-1">
                                                 <Star size={12} fill="#fff"/> {game.rating}
                                             </span>
@@ -98,6 +111,29 @@ export default async function PageSearch({params}: PageSearchProps) {
                         </div> 
                         
                     ))}
+                </div>
+
+
+                <div className="flex items-center justify-center gap-4 mt-12">
+                    {gameInfo.previous && (
+                        <Link href={`/search/${type}/${slug}?page=${prevPage}`}
+                            className="px-4 py-2 bg-zinc-800 text-sm text-white rounded-lg hover:bg-zinc-700 transition flex items-center justify-center gap-1 hover:shadow-yellow-500/20 shadow-lg"
+                        >
+                            <MoveLeft size={16}/> Previous
+                        </Link>
+                    )}
+
+                    <span className="text-gray-300 text-sm">
+                        {currentPage}
+                    </span>
+
+                    {gameInfo.next && (
+                        <Link href={`/search/${type}/${slug}?page=${nextPage}`}
+                            className="px-4 py-2 bg-zinc-800 text-sm text-white rounded-lg hover:bg-zinc-700 transition flex items-center justify-center gap-1 hover:shadow-yellow-500/20 shadow-lg"
+                        >
+                            Next <MoveRight size={16}/>
+                        </Link>
+                    )}
                 </div>
             </main>
 

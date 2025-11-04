@@ -36,7 +36,7 @@ export default async function PageGame ({params} : PageGameProps) {
     const additions = await getGamesAdditions(game.id)
     const gameSeries = await getGamesSeries(game.id)
     // console.log("MOVIES RAW:", JSON.stringify(movies, null, 2));
-    console.log(game);
+    // console.log(game);
     
 
     const releaseDate = new Date(game.released).toLocaleDateString('en-US')

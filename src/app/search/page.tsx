@@ -1,5 +1,6 @@
 import Footer from "../components/Footer"
 import Header from "../components/Header"
+import SearchButtons from "../components/SearchButtons"
 import SearchForm from "../components/SearchForm"
 
 export default async function Search() {
@@ -12,6 +13,10 @@ export default async function Search() {
                     Find a game you love 🤍
                 </h1>
                 <SearchForm />
+                <div className="mt-6">
+                    <span className="text-center">Or discover a new (or not) random game by these choices: </span>
+                </div>
+                <SearchButtons />
             </main>
 
             <Footer/>

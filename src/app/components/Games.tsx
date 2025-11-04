@@ -10,7 +10,7 @@ export default function Games({ games }: {games: Game[]}) {
             {games.map((game) => (
                 <div className="w-full relative" key={game.id}>
                     <Link href={`/game/${game.slug}`}>
-                       <div className="w-fit p-1 absolute z-50 top-2 right-2 bg-gradient-to-br from-zinc-900/80 to-yellow-500/80 rounded-lg shadow">
+                       <div className="w-fit p-1 absolute z-10 top-2 right-2 bg-gradient-to-br from-zinc-900/80 to-yellow-500/80 rounded-lg shadow">
                             <span className="text-xs text-white font-semibold flex items-center justify-center gap-1">
                                 <Star size={12} fill="#fff"/> {game.rating} / 5
                             </span>
@@ -20,7 +20,7 @@ export default function Games({ games }: {games: Game[]}) {
                             alt={game.name}
                             width={320}
                             height={220}
-                            className="w-full max-w-sm object-cover h-[220px] rounded-xl"
+                            className="w-full max-w-sm object-cover h-[220px] rounded-xl hover:brightness-70 hover:scale-105"
                         />
                    
 

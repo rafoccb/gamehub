@@ -1,33 +1,14 @@
 import { api } from "@/services/api";
-import { GameAchievements, SearchResponse } from "@/app/types/type";
+import { GameAchievements, GameParams, SearchResponse } from "@/app/types/type";
 import { getDataRange } from "@/utils/lib";
-import axios from "axios";
 
 const apiKey = process.env.RAWG_KEY
-
-type GameParams = {
-    page?: number,
-    page_size ?: number,
-    tba?: boolean,
-    dates?: string,
-    genres?: string,
-    developers?: string,
-    publishers?: string,
-    metacritic?: string,
-}
 
 export const getGames = async (params: GameParams = {}) => {
     const response = await api.get(`/games`, {
         params: {
-            key: apiKey,
-            page: params.page ?? 1,
-            page_size: params.page_size,
-            tba: params.tba ?? true,
-            dates: params.dates ?? getDataRange(180),
-            genres: params.genres,
-            developers: params.developers,
-            publishers: params.publishers,
-            metacritic: params.metacritic
+            key: apiKey,         
+            ...params
         }
     })
     // console.log(response.data.results)

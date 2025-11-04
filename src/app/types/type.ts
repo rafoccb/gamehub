@@ -1,3 +1,15 @@
+export type GameParams = {
+    page?: number,
+    page_size ?: number,
+    tba?: boolean,
+    dates?: string,
+    genres?: string,
+    developers?: string,
+    publishers?: string,
+    metacritic?: string,
+    ordering?: string;
+}
+
 export type Game = {
     id: number;
     name: string;
