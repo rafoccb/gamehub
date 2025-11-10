@@ -1,6 +1,6 @@
 import { getAchievementsByGame, getGamesAdditions, getGamesBySlug, getGamesSeries, getMoviesByGame, getScreenshotByGame } from "@/services/games"
-import { Flag, Gamepad2, Eye, Heart, Meh, Star, Calendar, Clock3} from "lucide-react"
-import type { Game, GameRatings, ScreenshotImage } from "../../types/type"
+import { Star, Calendar, Clock3} from "lucide-react"
+import type { Game, ScreenshotImage } from "../../types/type"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
 import Image from "next/image"

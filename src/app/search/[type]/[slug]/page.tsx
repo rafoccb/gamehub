@@ -67,7 +67,7 @@ export default async function PageSearch({params, searchParams}: PageSearchProps
                                 <div className="w-full">
                                     <div className="w-full relative">
                                         <div className="w-fit group absolute z-20 top-2 left-2">
-                                            <AddFavorite />
+                                            <AddFavorite gameId={game.id}/>
                                         </div>
                                         <div className="w-fit p-1 absolute z-20 top-2 right-2 bg-gradient-to-br from-zinc-900/80 to-yellow-500/80 rounded-lg shadow">
                                             <span className="text-xs text-white font-semibold flex items-center justify-center gap-1">
