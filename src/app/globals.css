@@ -270,7 +270,7 @@ body {
  }
 }
 
-/*  */
+/* top */
 .top {
   position: relative;
   text-decoration: none;
@@ -315,7 +315,7 @@ body {
   opacity: 1;
 }
 
-/*  */
+/* popular  */
 .popular {
   position: relative;
   display: inline-flex;

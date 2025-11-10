@@ -50,7 +50,7 @@ export default function SearchButtons() {
                 <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
                     <div className="text-center text-yellow-500 animate-pulse">
                         <div className="text-2xl font-bold uppercase tracking-widest mb-3">
-                            Invocando o Game...
+                            Summoning a game for you...
                         </div>
                         {loading && (
                             <div className="flex items-center justify-center">
@@ -58,7 +58,7 @@ export default function SearchButtons() {
                             </div>
                         )}
                         <div className="mt-4 text-sm text-zinc-400 italic">
-                            “Os portais dimensionais estão se abrindo...”
+                            “A dimensional portal is opening... ”
                         </div>
                     </div>
                 </div>

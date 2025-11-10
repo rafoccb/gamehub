@@ -47,7 +47,7 @@ export default function Platforms({platforms}: PlatformProps) {
     return (
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 ">
             <p>Available at: </p>
-            {platforms.map((item) => (
+            {platforms?.map((item) => (
                 <Link href={`/search/platform/${item.platform.slug}`} key={item.platform.id} >
                     <div>
                         <span className="flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-sm text-gray-400 hover:scale-105 cursor-pointer hover:text-white hover:underline">

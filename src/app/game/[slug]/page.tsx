@@ -5,7 +5,6 @@ import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
 import Image from "next/image"
 import Link from "next/link"
-import GameButton from "./components/GameButton"
 import CarouselSwipe from "./components/CarouselSwipe"
 import Tag from "./components/Tag"
 import Platforms from "./components/Platforms"
@@ -16,6 +15,7 @@ import Genres from "./components/Genres"
 import Developers from "./components/Developers"
 import AddFavorite from "./components/AddFavorite"
 import Requirements from "./components/Requirements"
+import BondButtons from "./components/BondButtons"
 
 interface PageGameProps {
     params: {
@@ -81,11 +81,8 @@ export default async function PageGame ({params} : PageGameProps) {
                         <div className="w-full mt-4 flex flex-col items-center justify-center sm:ml-12">
                             <span className="w-full text-white mt-2 font-medium text-sm text-center">What is your bond with this game?</span>
 
-                            <div className="w-full flex flex-wrap items-center justify-center gap-2 mt-1">
-                                <GameButton label="Beaten" icon={Flag} />
-                                <GameButton label="Next to play" icon={Eye} />   
-                                <GameButton label="Playing" icon={Gamepad2} />
-                                <GameButton label="Dropped" icon={Meh} />                          
+                            <div className="w-full">
+                                <BondButtons gameId={game.id} />
                             </div>
                         </div>
                         <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">
@@ -163,7 +160,7 @@ export default async function PageGame ({params} : PageGameProps) {
             </div>
 
             <div className="w-fit fixed z-40 left-4 bottom-4 group">
-                <AddFavorite />
+                <AddFavorite gameId={game.id} />
             </div>
             
             <Footer/>
