@@ -57,7 +57,6 @@ export default function GameSeries({gameSeries}: GameSeriesProps) {
                                    
                         </div>
                     ))}
-                    
                 </div>
             </div>
         </div>

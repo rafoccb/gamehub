@@ -160,7 +160,7 @@ export default async function PageGame ({params} : PageGameProps) {
             </div>
 
             <div className="w-fit fixed z-40 left-4 bottom-4 group">
-                <AddFavorite gameId={game.id} />
+                <AddFavorite gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image}/>
             </div>
             
             <Footer/>

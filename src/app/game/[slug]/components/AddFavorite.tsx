@@ -5,10 +5,13 @@ import { useEffect, useState } from "react";
 
 interface AddFavoriteProps {
     gameId: number
+    gameName: string
+    gameSlug: string
+    gameImage: string
 }
 
 
-export default function AddFavorite({ gameId }: AddFavoriteProps) {
+export default function AddFavorite({ gameId, gameName, gameSlug, gameImage }: AddFavoriteProps) {
     const [favorite, setFavorite] = useState<number | null>(null)
 
     useEffect(() => {
@@ -51,7 +54,7 @@ export default function AddFavorite({ gameId }: AddFavoriteProps) {
         } else {
             const { error } = await supabase
                 .from("favorites")
-                .insert({user_id: user.id, game_id: gameId})
+                .insert({user_id: user.id, game_id: gameId, name: gameName, slug: gameSlug, background_image: gameImage})
 
             if(!error) setFavorite(gameId)
         }

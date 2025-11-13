@@ -1,6 +1,5 @@
 import { api } from "@/services/api";
 import { GameAchievements, GameParams, SearchResponse } from "@/app/types/type";
-import { getDataRange } from "@/utils/lib";
 
 const apiKey = process.env.RAWG_KEY
 
@@ -104,5 +103,15 @@ export const getTypeForSearchPage = async (type: string, slug: string, page?: nu
         }
     })
 
+    return response.data;
+}
+
+export const getGameDetailsById = async (id: number, params: GameParams = {}) => {
+    const response = await api.get(`/games/${id}/`, {
+        params: {
+            key: apiKey,
+            ...params
+        }
+    })
     return response.data;
 }
