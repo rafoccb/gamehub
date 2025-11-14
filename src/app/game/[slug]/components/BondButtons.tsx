@@ -6,10 +6,13 @@ import GameButton from "./GameButton"
 
 
 interface BondButtonsProps {
-    gameId: number  
+    gameId: number
+    gameName: string
+    gameSlug: string
+    gameImage: string
 }
 
-export default function BondButtons({ gameId } : BondButtonsProps) {
+export default function BondButtons({ gameId, gameName, gameSlug, gameImage } : BondButtonsProps) {
     const [bond, setBond] = useState<string | null>(null)
 
     useEffect(()=> {
@@ -54,7 +57,7 @@ export default function BondButtons({ gameId } : BondButtonsProps) {
         const { error } = await supabase
             .from("games_bond")
             .upsert(
-                { user_id: user.id, game_id: gameId, type },
+                { user_id: user.id, game_id: gameId, type, slug: gameSlug, name: gameName, background_image: gameImage },
                 { onConflict: "user_id,game_id" }
             )
             
@@ -67,7 +70,7 @@ export default function BondButtons({ gameId } : BondButtonsProps) {
 
     const labels = [
        { label: "Beaten", icon: Flag},
-       { label: "Next to play", icon: Eye },
+       { label: "Wishlist", icon: Eye },
        { label: "Playing", icon: Gamepad2 },
        { label: "Dropped", icon: Meh },
     ]

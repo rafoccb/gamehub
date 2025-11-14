@@ -82,7 +82,7 @@ export default async function PageGame ({params} : PageGameProps) {
                             <span className="w-full text-white mt-2 font-medium text-sm text-center">What is your bond with this game?</span>
 
                             <div className="w-full">
-                                <BondButtons gameId={game.id} />
+                                <BondButtons gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} />
                             </div>
                         </div>
                         <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">

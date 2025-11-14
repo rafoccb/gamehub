@@ -105,13 +105,3 @@ export const getTypeForSearchPage = async (type: string, slug: string, page?: nu
 
     return response.data;
 }
-
-export const getGameDetailsById = async (id: number, params: GameParams = {}) => {
-    const response = await api.get(`/games/${id}/`, {
-        params: {
-            key: apiKey,
-            ...params
-        }
-    })
-    return response.data;
-}

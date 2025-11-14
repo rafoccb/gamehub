@@ -1,49 +1,104 @@
 "use client"
-import { useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import { supabase } from "@/api/supabaseClient";
-import { LayoutGrid, List, PanelRight, Rows3 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion"
-import Image from "next/image";
-import { getGameDetailsById } from "@/services/games";
-import { Game } from "../types/type";
-import { getFavoriteGames } from "../components/actions/getFavoriteGames";
+import { supabase } from "@/api/supabaseClient"
+import Footer from "@/app/components/Footer"
+import Header from "@/app/components/Header"
+import { Columns3, LayoutGrid, LayoutList, Square } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Game } from "../types/type"
+import { AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
 
-type ViewMode = "grid" | "list" | "compact" | "big"
+type ViewMode = "grid" | "big" | "compact" | "details"
 
-export default function Favorites(){
+type FavoriteGame = {
+  game_id: number
+  name: string
+  slug: string
+  background_image: string
+  created_at: string
+}
+
+export default function FavoritesList(){
     const [viewMode, setViewMode] = useState<ViewMode>("grid")
-    // const [favorites, setFavorites] = useState<number[]>([])
-      
-    const [favorites, setFavorites] = useState<Game[]>([]);
-  const [page, setPage] = useState(1);
+    const [favorites, setFavorites] = useState<FavoriteGame []>([])
+    const [totalFavorites, setTotalFavorites] = useState(0)
+    const [bonds, setBonds] = useState<Map<number, string>>(new Map())
+    const [visibleCount, setVisibleCount] = useState(15)
+    const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    const loadFavorites = async () => {
-      const games = await getFavoriteGames(page);
-      setFavorites(games);
-    };
-
-    loadFavorites();
-  }, [page])
-
+        useEffect(()=> {
+            const fetchFavorites = async () => {
+                setIsLoading(true)
+                const { data: {user} } = await supabase.auth.getUser()
+                if(!user) {
+                    setFavorites([])
+                    setBonds(new Map())
+                    setIsLoading(false)
+                    return
+                }
     
+                const {data, error } = await supabase
+                    .from("favorites")
+                    .select("game_id, created_at, slug, name, background_image")
+                    .eq("user_id", user.id)
+                    .order("created_at", { ascending: false })
+                
+                if(error || !data) {
+                    console.error("Error: ", error)
+                    setFavorites([])
+                    setTotalFavorites(0)
+                    setIsLoading(false)
+                    return
+                }
+
+                setTotalFavorites(data.length)
+
+                const sliced = data.slice(0, visibleCount)
+                setFavorites(sliced)
+                setIsLoading(false)
 
 
+                const compareIds = sliced.map(fav => fav.game_id)
+                if(compareIds.length === 0) {
+                    setBonds(new Map())
+                    setIsLoading(false)
+                    return
+                }
+
+                // search for bond on favorite
+                const { data: bondData, error: bondError } = await supabase
+                    .from("games_bond")
+                    .select("game_id, type")
+                    .eq("user_id", user.id)
+                    .in("game_id", compareIds)
+
+                if(bondError) {
+                    console.error("Error fetching bond: ", bondError)
+                }
+
+                const bondMap = new Map()
+                bondData?.forEach(bond => bondMap.set(bond.game_id, bond.type))
+                setBonds(bondMap)
+                setIsLoading(false)
+            }
+            
+            fetchFavorites()
+        }, [visibleCount])
 
     const modes = [
         {icon: LayoutGrid, mode: "grid"},
-        {icon: List, mode: "list"},
-        {icon: Rows3, mode: "compact"},
-        {icon: PanelRight, mode: "big"}
+        {icon: Square, mode: "big"},
+        {icon: Columns3, mode: "compact"},
+        {icon: LayoutList, mode: "details"}
     ]
 
     return(
         <>
             <Header />
-                <main className="">
-                    <div className="w-full min-h-screen bg-zinc-950 text-zinc-200 px-6 py-10">
+                <main className="w-full max-w-[1280px] m-auto py-12">
+                    <div className="w-full max-w-[1280px] min-h-screen text-zinc-200 px-6 py-10">
                         <div className="flex justify-between items-center mb-8">
                             <h1 className="text-xl sm:text-2xl font-semibold tracking-wide">
                                 My Favorite Games
@@ -67,70 +122,127 @@ export default function Favorites(){
                             </div>
                         </div>
 
-                        <div>
-                        {favorites.map((game) => (
-                            <div key={game.id}>{game.name}</div>
-                        ))}
-                        </div>
+                        {!isLoading && favorites.length === 0 && (
+                            <div className="w-full m-auto py-8 flex items-center justify-center">
+                                <p> You don`t have any favorite game yet. How about start adding some? </p>
+                                <Link href="/search/">Take me there</Link>
+                            </div>
+                            )
+                        }
 
 
                         {/* Lista com animações */}
-                        {/* <motion.div
+                        <motion.div
                             layout
                             className={`grid gap-4 ${
                             viewMode === "grid"
                                 ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-                                : "grid-cols-1"
+                                : viewMode === "big"
+                                ? "grid grid-cols-1 md:grid-cols-2 items-center gap-4 p-3"
+                                : viewMode === "compact"
+                                ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 p-3"
+                                : viewMode === "details"
+                                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-3"
+                                : "p-0"
                             }`}
                         >
                             <AnimatePresence>
-                            {favorites.map((fav) => (
+                            {favorites.map((favs) => (
                                 <motion.div
-                                key={fav.game_id}
-                                layout
-                                initial={{ opacity: 0, scale: 0.9, y: 10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.25 }}
-                                className={`rounded-xl border overflow-hidden bg-zinc-900/60 backdrop-blur-sm
-                                    border-zinc-700 hover:border-rose-400/60 transition-all duration-300
-                                    ${
-                                    viewMode === "list"
-                                        ? "flex items-center gap-4 p-3"
-                                        : viewMode === "compact"
-                                        ? "flex items-center gap-3 p-2"
-                                        : "p-0"
-                                    }`}
-                                >
-                                <Image
-                                    src={fav.games?.background_image}
-                                    alt={fav.games?.name}
-                                    className={`object-cover rounded-md transition-all duration-300
-                                    ${
+                                    key={favs.game_id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.25 }}
+                                    className={`rounded-xl border overflow-hidden bg-zinc-900/60 backdrop-blur-sm cursor-pointer
+                                        border-zinc-700 hover:border-rose-400/60 transition-all duration-300 hover:bg-rose-900/20
+                                        ${
                                         viewMode === "grid"
-                                        ? "w-full h-48"
-                                        : viewMode === "list"
-                                        ? "w-28 h-28"
-                                        : "w-20 h-20"
-                                    }`}
-                                />
-                                <div
-                                    className={`transition-all duration-300 ${
-                                    viewMode === "grid" ? "p-3" : ""
-                                    }`}
-                                >
-                                    <h2
-                                    className={`font-medium ${
-                                        viewMode === "compact" ? "text-xs" : "text-sm sm:text-base"
-                                    }`}
-                                    >
-                                    {fav.games?.name}
-                                    </h2>
-                                </div>
+                                            ? "flex flex-wrap items-center gap-4 p-3"
+                                            : viewMode === "big"
+                                            ? "flex flex-wrap items-center gap-4 p-3"
+                                            : viewMode === "compact"
+                                            ? "flex flex-wrap items-center gap-4 p-3"
+                                            : viewMode === "details"
+                                            ? "flex items-center gap-4 p-3"
+                                            : "p-0"
+                                        }`}
+
+                                        // "grid" | "big" | "compact" | "details"
+                                >   
+                                    <Link href={`/game/${favs.slug}`} className={`${ 
+                                            viewMode === "details"
+                                            ? "flex items-center gap-4 p-3"
+                                            : "p-0" 
+                                    }`}>
+                                        <Image
+                                            src={favs?.background_image}
+                                            alt={favs?.name}
+                                            width={400}
+                                            height={400}
+                                            className={`object-cover rounded-md transition-all duration-300
+                                            ${
+                                                viewMode === "grid"
+                                                ? "w-full h-48"
+                                                : viewMode === "big"
+                                                ? "w-full h-[360px]"
+                                                : viewMode === "compact"
+                                                ? "w-full h-[270px]"
+                                                : viewMode === "details"
+                                                ? "w-24 h-24"
+                                                : "w-24 h-24"
+                                            }`}
+                                        />
+
+                                        <div className={`transition-all duration-300 ${
+                                            viewMode === "grid" 
+                                                ? "p-1" 
+                                                : ""
+                                            }`}
+                                        >
+                                            <h2 className={`font-medium text-center mt-1 ${
+                                                viewMode === "compact" 
+                                                ? "text-xs sm:text-sm" 
+                                                : viewMode === "details"
+                                                ? "flex flex-col text-start"
+                                                : "text-sm sm:text-base"}`}
+                                            >   
+                                                {favs?.name}
+                                                { viewMode === "details" 
+                                                    ? <Link href={`/game/${favs.slug}`} className="mt-1 text-xs bg-rose-500/90 w-fit py-1 px-2 font-medium rounded-xl shadow-lg shadow-rose-300/20"> See More </Link> 
+                                                    : ""
+                                                }
+
+                                                {bonds.get(favs.game_id) && (
+                                                    <p className="text-sm text-purple-400">
+                                                        {bonds.get(favs.game_id)}
+                                                    </p>
+                                                    )}
+                                            </h2>        
+                                        </div>
+                                    </Link>
                                 </motion.div>
                             ))}
                             </AnimatePresence>
-                        </motion.div> */}
+                        </motion.div> 
+
+                        <div className="w-full m-auto flex items-center justify-center">
+                            {!isLoading && visibleCount < totalFavorites && (
+                                <button
+                                    onClick={() => setVisibleCount(next => next + 12)}
+                                    className="px-4 py-2 mt-4 bg-yellow-500 text-black font-semibold rounded-lg cursor-pointer hover:brightness-110 hover:shadow hover:shadow-yellow-600/20"
+                                >
+                                    Load More
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="w-full m-auto flex items-center justify-center py-12">
+                            {isLoading && 
+                                <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin shadow-[0_0_15px_#eab308]"></div>
+                            }
+                        </div>
                     </div>
                 </main>
             <Footer />
