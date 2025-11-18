@@ -184,7 +184,7 @@ export default function Hub(){
                                             {viewMode === "details"
                                                 ? ""
                                                 :   
-                                                <div className="absolute right-4 top-6 flex flex-col items-center justify-center gap-3">
+                                                <div className="absolute right-2 top-4 flex flex-col items-center justify-center gap-3">
                                                     <div className="">
                                                         <BondIcon type={game.bond} />
                                                         {game.favorite && (
@@ -198,10 +198,15 @@ export default function Hub(){
                                         </div>
 
                                         {viewMode === "details"
-                                            ?   <div className="absolute right-4 top-6 flex flex-col items-center justify-center gap-3">
+                                            ?   <div className="absolute right-2 top-4 flex flex-col items-center justify-center gap-3">
                                                     <div className="">
                                                         <BondIcon type={game.bond} />
-                                                    </div>  
+                                                    </div>
+                                                    {game.favorite && (
+                                                        <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-red-700/70 to-red-900/70 text-white rounded-md shadow-[0_0_12px_rgba(255,0,0,0.4)] backdrop-blur-sm mt-1">
+                                                            <Heart size={18} />
+                                                        </div>
+                                                    )}  
                                                 </div>
                                             :  ""
                                         }
