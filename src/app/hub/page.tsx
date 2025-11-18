@@ -2,7 +2,7 @@
 import { supabase } from "@/api/supabaseClient"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
-import { Columns3, Eye, Flag, Gamepad2, Heart, LayoutGrid, LayoutList, Meh, Square } from "lucide-react"
+import { Columns3, Heart, LayoutGrid, LayoutList, Square } from "lucide-react"
 import { useEffect, useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { motion } from "framer-motion"
