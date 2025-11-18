@@ -35,7 +35,7 @@ const VIEWMODE_STYLES = {
     },
     compact: {
         container: "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 p-3",
-        card: "flex flex-wrap items-center gap-4 p-3",
+        card: "flex flex-wrap items-start justify-center gap-4 p-3",
         image: "w-full h-[270px]",
         text: "text-xs sm:text-sm",
     },
@@ -172,7 +172,7 @@ export default function Hub(){
                                             ? "flex items-center justify-start gap-4 p-3 w-full"
                                             : "p-0" 
                                     }`}>
-                                        <div className="w-full relative">
+                                        <div className="relative">
                                             <Image
                                                 src={game.background_image ?? ""}
                                                 alt={game.name ?? "Game Cover"}
@@ -184,7 +184,7 @@ export default function Hub(){
                                             {viewMode === "details"
                                                 ? ""
                                                 :   
-                                                <div className="absolute right-2 top-4 flex flex-col items-center justify-center gap-3">
+                                                <div className="absolute right-2 top-4 flex flex-col items-center justify-center gap-1">
                                                     <div className="">
                                                         <BondIcon type={game.bond} />
                                                         {game.favorite && (
@@ -197,19 +197,18 @@ export default function Hub(){
                                                 }
                                         </div>
 
-                                        {viewMode === "details"
-                                            ?   <div className="absolute right-2 top-4 flex flex-col items-center justify-center gap-3">
-                                                    <div className="">
-                                                        <BondIcon type={game.bond} />
-                                                    </div>
-                                                    {game.favorite && (
-                                                        <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-red-700/70 to-red-900/70 text-white rounded-md shadow-[0_0_12px_rgba(255,0,0,0.4)] backdrop-blur-sm mt-1">
-                                                            <Heart size={18} />
-                                                        </div>
-                                                    )}  
+                                        {viewMode === "details" && (
+                                            <div className="absolute right-2 top-2 flex flex-col items-center justify-center gap-1">
+                                                <div className="">
+                                                    <BondIcon type={game.bond} />
                                                 </div>
-                                            :  ""
-                                        }
+                                                {game.favorite && (
+                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-red-700/70 to-red-900/70 text-white rounded-md shadow-[0_0_12px_rgba(255,0,0,0.4)] backdrop-blur-sm mt-1">
+                                                        <Heart size={18} />
+                                                    </div>
+                                                )}  
+                                            </div>
+                                        )}
                                        
 
                                         <div className={`transition-all duration-300 ${
