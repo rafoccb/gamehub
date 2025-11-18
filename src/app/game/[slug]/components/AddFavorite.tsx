@@ -1,5 +1,6 @@
 "use client"
 import { supabase } from "@/api/supabaseClient";
+import { useGame } from "@/app/hooks/useGame";
 import { Heart, HeartCrack } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -8,57 +9,21 @@ interface AddFavoriteProps {
     gameName: string
     gameSlug: string
     gameImage: string
+    gameDate: string
 }
 
 
-export default function AddFavorite({ gameId, gameName, gameSlug, gameImage }: AddFavoriteProps) {
-    const [favorite, setFavorite] = useState<number | null>(null)
-
-    useEffect(() => {
-        const fetchFavorite = async () => {
-            const { data: {user} } = await supabase.auth.getUser()
-            if(!user) return
-
-            const { data, error } = await supabase
-                .from("favorites")
-                .select("game_id")
-                .eq("user_id", user.id)
-                .eq("game_id", gameId)
-                .maybeSingle()
-
-            if(!error && data) { 
-                setFavorite(data.game_id)
-            } else {
-                setFavorite(null)
-            }
+export default function AddFavorite({ gameId, gameName, gameSlug, gameImage, gameDate }: AddFavoriteProps) {
+    const { favorite, setFavorite } = useGame(gameId, {
+            name: gameName,
+            slug: gameSlug,
+            background_image: gameImage,
+            released: gameDate,
+        })
+    
+        function handleFavorite() {
+            setFavorite(favorite ? null : true)
         }
-
-        fetchFavorite()
-    },[gameId])
-
-    const handleFavorite = async () => {
-        const { data: {user} } = await supabase.auth.getUser()
-        if(!user) {
-            alert("faça login primeiro")
-            return
-        }
-
-        if(favorite) {
-            const { error } = await supabase
-                .from("favorites")
-                .delete()
-                .eq("user_id", user.id)
-                .eq("game_id", gameId)
-
-            if(!error) setFavorite(null)
-        } else {
-            const { error } = await supabase
-                .from("favorites")
-                .insert({user_id: user.id, game_id: gameId, name: gameName, slug: gameSlug, background_image: gameImage})
-
-            if(!error) setFavorite(gameId)
-        }
-    }
 
 
 

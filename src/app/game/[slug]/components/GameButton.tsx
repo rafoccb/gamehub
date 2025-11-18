@@ -1,7 +1,7 @@
 import { LucideIcon } from "lucide-react"
 
 interface GameButtonProps {
-    label: string
+    label: string | null | undefined
     icon: LucideIcon
     active?: boolean
     onClick: () => void

@@ -82,7 +82,7 @@ export default async function PageGame ({params} : PageGameProps) {
                             <span className="w-full text-white mt-2 font-medium text-sm text-center">What is your bond with this game?</span>
 
                             <div className="w-full">
-                                <BondButtons gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} />
+                                <BondButtons gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} gameDate={game.released} />
                             </div>
                         </div>
                         <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">
@@ -160,7 +160,7 @@ export default async function PageGame ({params} : PageGameProps) {
             </div>
 
             <div className="w-fit fixed z-40 left-4 bottom-4 group">
-                <AddFavorite gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image}/>
+                <AddFavorite gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} gameDate={game.released}/>
             </div>
             
             <Footer/>

@@ -1,8 +1,9 @@
 "use client"
 import { useState, useEffect } from 'react'
 import { supabase } from "@/api/supabaseClient"
-import { Flag, Gamepad2, Eye, Meh } from "lucide-react"
+import { Flag, Gamepad2, Eye, Meh, LucideIcon } from "lucide-react"
 import GameButton from "./GameButton"
+import { BondType, useGame } from '@/app/hooks/useGame'
 
 
 interface BondButtonsProps {
@@ -10,65 +11,94 @@ interface BondButtonsProps {
     gameName: string
     gameSlug: string
     gameImage: string
+    gameDate: string
 }
 
-export default function BondButtons({ gameId, gameName, gameSlug, gameImage } : BondButtonsProps) {
-    const [bond, setBond] = useState<string | null>(null)
+export default function BondButtons({ gameId, gameName, gameSlug, gameImage, gameDate } : BondButtonsProps) {
+    // const [bond, setBond] = useState<string | null>(null)
 
-    useEffect(()=> {
-        const fetchBond = async () => {
-            const { data: {user} } = await supabase.auth.getUser()
-            if(!user) return
+    // // console.log(supabase)
 
-            const {data, error } = await supabase
-                .from("games_bond")
-                .select("type")
-                .eq("user_id", user.id)
-                .eq("game_id", gameId)
-                .maybeSingle()
+    // useEffect(()=> {
+    //     const fetchBond = async () => {
+    //         const { data: {user} } = await supabase.auth.getUser()
+    //         console.log(user)
+    //         if(!user) return
+
+    //         const {data, error } = await supabase
+    //             .from("user_games")
+    //             .select("*")
+    //             .eq("user_id", user.id)
+    //             .eq("game_id", gameId)
+    //             .maybeSingle()
             
-            if(!error && data) setBond(data.type)
-        }
+    //         if(!error && data) setBond(data.bond)
+    //     }
         
-        fetchBond()
-    }, [gameId])
+    //     fetchBond()
+    // }, [gameId])
 
 
-    const handleSaveBond = async (type: string) => {
-        const { data: {user} } = await supabase.auth.getUser()
-        if(!user) {
-            alert("faça login primeiro")
-            return
-        }
+    // const handleSaveBond = async (type: string) => {
+    //     const { data: {user} } = await supabase.auth.getUser()
+    //     if(!user) {
+    //         alert("faça login primeiro")
+    //         return
+    //     }
 
-        if(bond === type) {
-            await supabase
-                .from("games_bond")
-                .delete()
-                .eq("user_id", user.id)
-                .eq("game_id", gameId)
+    //     if(bond === type) {
+    //         await supabase
+    //             .from("user_games")
+    //             .update({  bond: null })
+    //             .eq("user_id", user.id)
+    //             .eq("game_id", gameId)
 
-            setBond(null)
-            return
-        }
+    //         setBond(null)
+    //         return
+    //     }
 
-        setBond(type)
+    //     setBond(type)
 
-        const { error } = await supabase
-            .from("games_bond")
-            .upsert(
-                { user_id: user.id, game_id: gameId, type, slug: gameSlug, name: gameName, background_image: gameImage },
-                { onConflict: "user_id,game_id" }
-            )
+    //     const { error } = await supabase
+    //         .from("user_games")
+    //         .upsert(
+    //             { 
+    //                 user_id: user.id, 
+    //                 game_id: gameId, 
+    //                 slug: gameSlug, 
+    //                 name: gameName, 
+    //                 background_image: gameImage,
+    //                 released: gameDate, 
+    //                 bond: type,
+    //             },
+    //             { onConflict: "user_id, game_id" }
+               
+    //         )
             
 
-        if(!error) {
+    //     if(!error) {
+    //         setBond(type)
+    //     }
+    // }
+    
+    // console.log(bond)
+
+    const { bond, setBond } = useGame(gameId, {
+        name: gameName,
+        slug: gameSlug,
+        background_image: gameImage,
+        released: gameDate,
+    })
+
+    function handleSaveBond(type: BondType | null) {
+        if (bond === type) {
+            setBond(null)
+        } else {
             setBond(type)
         }
     }
-    console.log(bond)
 
-    const labels = [
+    const labels: {label: BondType; icon: LucideIcon}[] = [
        { label: "Beaten", icon: Flag},
        { label: "Wishlist", icon: Eye },
        { label: "Playing", icon: Gamepad2 },

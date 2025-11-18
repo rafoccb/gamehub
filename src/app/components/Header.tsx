@@ -36,9 +36,9 @@ export default function Header() {
             </div>
             <div className="w-full max-w-2xl m-auto">
                 <ul className="list-none flex items-center justify-center gap-4">
-                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/"><Gamepad2 /></Link></li>
                     <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/search"><Search /></Link></li>
-                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/favorites"><Heart /></Link></li>
+                    <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/hub"><Gamepad2 /></Link></li>
+                    {/* <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/"><Heart /></Link></li> */}
                    
                         {user ? (
                             <div className="flex items-center gap-2">
