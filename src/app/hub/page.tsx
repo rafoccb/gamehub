@@ -55,11 +55,14 @@ export default function Hub(){
     const [total, setTotal] = useState(0)
     const [visibleCount, setVisibleCount] = useState(18)
     const [isLoading, setIsLoading] = useState(true)
+    const [user, setUser] = useState<any>(null)
 
     useEffect(()=> {
         const fetchGames = async () => {
             setIsLoading(true)
             const { data: {user} } = await supabase.auth.getUser()
+            setUser(user)
+
             if(!user) {
                 setGames([])
                 setTotal(0)
@@ -107,28 +110,42 @@ export default function Hub(){
                                 My Game Hub
                             </h1>
 
-                            <div className="flex gap-2">
-                                {modes.map(({ icon: Icon, mode }) => (
-                                    <button
-                                    key={mode}
-                                    onClick={() => setViewMode(mode as ViewMode)}
-                                    className={`p-2 rounded-lg border transition-all duration-300 
-                                        ${
-                                        viewMode === mode
-                                            ? "bg-rose-900/70 border-rose-400 scale-105"
-                                            : "bg-zinc-800 border-zinc-700 hover:bg-zinc-700"
-                                        }`}
-                                    >
-                                    <Icon size={18} />
-                                    </button>
-                                ))}
-                            </div>
+                            {!isLoading && user && games.length > 0 &&  (
+                                <div className="flex gap-2">
+                                    {modes.map(({ icon: Icon, mode }) => (
+                                        <button
+                                        key={mode}
+                                        onClick={() => setViewMode(mode as ViewMode)}
+                                        className={`p-2 rounded-lg border transition-all duration-300 cursor-pointer
+                                            ${
+                                            viewMode === mode
+                                                ? "bg-rose-900/70 border-rose-400 scale-105"
+                                                : "bg-zinc-800 border-zinc-700 hover:bg-zinc-700"
+                                            }`}
+                                        >
+                                        <Icon size={18} />
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
-                        {!isLoading && games.length === 0 && (
-                            <div className="w-full m-auto py-8 flex items-center justify-center">
-                                <p> You don`t have any favorite game yet. How about start adding some? </p>
-                                <Link href="/search/">Take me there</Link>
+                        {!isLoading && !user && (
+                            <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
+                                <p>You must be logged in to see your game collection.</p>
+
+                                <Link href="/teste" className="text-sm md:text-base bg-rose-600 p-2 text-white font-semibold rounded-sm hover:brightness-110 hover:shadow-sm hover:shadow-rose-200/20 mt-2">
+                                    Login
+                                </Link>
+                            </div>
+                        )}
+
+                        {!isLoading && games.length === 0 && user && (
+                            <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
+                                <p> You don`t have any game interaction yet. How about start adding some? </p>
+                                <Link href="/search/" className="text-sm md:text-base bg-yellow-400 p-2 text-black font-semibold rounded-sm hover:brightness-110 hover:shadow-sm hover:shadow-yellow-200/20 mt-2"
+                                    >Take me there
+                                </Link>
                             </div>
                             )
                         }
@@ -157,7 +174,7 @@ export default function Hub(){
                                             ? "flex items-center justify-start gap-4 p-3 w-full"
                                             : "p-0" 
                                     }`}>
-                                        <div className="w-fullrelative">
+                                        <div className="w-full relative">
                                             <Image
                                                 src={game.background_image ?? ""}
                                                 alt={game.name ?? "Game Cover"}
