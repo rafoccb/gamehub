@@ -48,10 +48,7 @@ const VIEWMODE_STYLES = {
 }
 
 export default function Hub(){
-    const [viewMode, setViewMode] = useState<ViewMode>(() => {
-        const savedViewMode = localStorage.getItem("viewMode")
-        return savedViewMode ? (savedViewMode as ViewMode) : "grid"
-    })
+    const [viewMode, setViewMode] = useState<ViewMode>("grid")
     const [games, setGames] = useState<UserGame []>([])
     const [total, setTotal] = useState(0)
     const [visibleCount, setVisibleCount] = useState(18)
@@ -93,6 +90,13 @@ export default function Hub(){
         }     
         fetchGames()
     }, [visibleCount])
+
+    useEffect(() => {
+        const saved = localStorage.getItem("viewMode")
+        if (saved) {
+            setViewMode(saved as ViewMode)
+        }
+    }, [])
 
     useEffect(() => {
         localStorage.setItem("viewMode", viewMode)
