@@ -13,13 +13,11 @@ import { UserGame } from "../hooks/useGame"
 
 type ViewMode = "grid" | "big" | "compact" | "details"
 
-type FavoriteGame = {
-  game_id: number
-  name: string
-  slug: string
-  background_image: string
-  created_at: string
-}
+type AppUser = {
+    id: string;
+    name?: string;
+    email?: string;
+} | null;
 
 const VIEWMODE_STYLES = {
     grid: {
@@ -55,7 +53,7 @@ export default function Hub(){
     const [total, setTotal] = useState(0)
     const [visibleCount, setVisibleCount] = useState(18)
     const [isLoading, setIsLoading] = useState(true)
-    const [user, setUser] = useState<any>(null)
+    const [user, setUser] = useState<AppUser>(null)
 
     useEffect(()=> {
         const fetchGames = async () => {
