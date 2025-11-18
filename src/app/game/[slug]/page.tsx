@@ -16,6 +16,7 @@ import Developers from "./components/Developers"
 import AddFavorite from "./components/AddFavorite"
 import Requirements from "./components/Requirements"
 import BondButtons from "./components/BondButtons"
+import AddPlatinum from "./components/AddPlatinum"
 
 interface PageGameProps {
     params: {
@@ -84,6 +85,8 @@ export default async function PageGame ({params} : PageGameProps) {
                             <div className="w-full">
                                 <BondButtons gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} gameDate={game.released} />
                             </div>
+
+                            
                         </div>
                         <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">
                             <Tag tags={game.tags} />

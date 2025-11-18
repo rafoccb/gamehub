@@ -111,21 +111,26 @@ export function useGame(
     }
 
     function setBond(bond: UserGame["bond"]) {
+        // atualizar estado para o React
+        setGameUser(current => current ? {...current, bond } : current)
         updateUserGame("bond", bond)
     }
 
     
     function setFavorite(favorite: boolean | null) {
+        setGameUser(current => current ? {...current, favorite } : current)
         updateUserGame("favorite", favorite)
     }
 
     
     function setRating(rating: UserGame["rating"]) {
+        setGameUser(current => current ? {...current, rating } : current)
         updateUserGame("rating", rating)
     }
 
     
     function setPlatinum(platinum: boolean | null) {
+        setGameUser(current => current ? {...current, platinum } : current)
         updateUserGame("platinum", platinum)
     }
 

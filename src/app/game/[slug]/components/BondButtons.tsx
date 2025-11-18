@@ -4,6 +4,7 @@ import { supabase } from "@/api/supabaseClient"
 import { Flag, Gamepad2, Eye, Meh, LucideIcon } from "lucide-react"
 import GameButton from "./GameButton"
 import { BondType, useGame } from '@/app/hooks/useGame'
+import AddPlatinum from './AddPlatinum'
 
 
 interface BondButtonsProps {
@@ -115,6 +116,11 @@ export default function BondButtons({ gameId, gameName, gameSlug, gameImage, gam
                     onClick={() => handleSaveBond(label)}
                 />
             ))}
+
+            {bond ? 
+                <AddPlatinum gameId={gameId} />
+                : null
+            }
         </div>
     )
 }

@@ -2,7 +2,7 @@
 import { supabase } from "@/api/supabaseClient"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
-import { Columns3, Heart, LayoutGrid, LayoutList, Square } from "lucide-react"
+import { Columns3, Heart, LayoutGrid, LayoutList, Square, Trophy } from "lucide-react"
 import { useEffect, useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { motion } from "framer-motion"
@@ -48,7 +48,10 @@ const VIEWMODE_STYLES = {
 }
 
 export default function Hub(){
-    const [viewMode, setViewMode] = useState<ViewMode>("grid")
+    const [viewMode, setViewMode] = useState<ViewMode>(() => {
+        const savedViewMode = localStorage.getItem("viewMode")
+        return savedViewMode ? (savedViewMode as ViewMode) : "grid"
+    })
     const [games, setGames] = useState<UserGame []>([])
     const [total, setTotal] = useState(0)
     const [visibleCount, setVisibleCount] = useState(18)
@@ -90,6 +93,10 @@ export default function Hub(){
         }     
         fetchGames()
     }, [visibleCount])
+
+    useEffect(() => {
+        localStorage.setItem("viewMode", viewMode)
+    }, [viewMode])
 
     const modes = [
         {icon: LayoutGrid, mode: "grid"},
@@ -192,6 +199,11 @@ export default function Hub(){
                                                                 <Heart size={18} />
                                                             </div>
                                                         )}
+                                                        {game.platinum && (
+                                                            <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-yellow-500/80 to-yellow-700/70 text-white rounded-md shadow-[0_0_12px_rgba(242, 242, 26,0.4)] backdrop-blur-sm mt-1">
+                                                                <Trophy size={18} />
+                                                            </div>
+                                                        )}
                                                     </div>  
                                                 </div>
                                                 }
@@ -206,7 +218,12 @@ export default function Hub(){
                                                     <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-red-700/70 to-red-900/70 text-white rounded-md shadow-[0_0_12px_rgba(255,0,0,0.4)] backdrop-blur-sm mt-1">
                                                         <Heart size={18} />
                                                     </div>
-                                                )}  
+                                                )}
+                                                 {game.platinum && (
+                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-yellow-500/80 to-yellow-700/70 text-white rounded-md shadow-[0_0_12px_rgba(242, 242, 26,0.4)] backdrop-blur-sm mt-1">
+                                                        <Trophy size={18} />
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                        
