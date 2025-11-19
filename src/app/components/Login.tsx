@@ -3,13 +3,13 @@ import type { User } from "@supabase/supabase-js"
 import { useState, useEffect } from "react"
 import { supabase } from "@/api/supabaseClient"
 
-export default function TestePage() {
+export default function Login() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [username, setUsername] = useState("")
-  const [isLogin, setIsLogin] = useState(true) // alternar entre login/cadastro
+  const [isLogin, setIsLogin] = useState(true)
 
   useEffect(() => {
     async function getUser() {
@@ -22,7 +22,13 @@ export default function TestePage() {
     getUser()
   }, [])
 
-  if (loading) return <p>Carregando...</p>
+  if (loading){ 
+	return (
+		<div className="flex items-center justify-center">
+            <div className="w-12 h-12 border-4 border-zinc-900 border-t-transparent rounded-full animate-spin shadow-[0_0_15px_#181818]"></div>
+        </div>
+	)
+  }
 
   if (user) {
     return (
@@ -72,26 +78,30 @@ export default function TestePage() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-4">
-      <h2 className="text-2xl font-semibold">
-        {isLogin ? "Entrar na Conta" : "Cadastrar-se"}
+      <h2 className="text-2xl font-semibold text-black">
+        {isLogin ? "Sign In" : "Sign Up"}
       </h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-64">
         <input
           type="email"
-          placeholder="E-mail"
+          placeholder="Your e-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border border-gray-300 rounded p-2"
+          className="border border-zinc-800 rounded-lg p-2 text-black bg-yellow-400/80
+			focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:bg-zinc-200/80
+			transition-all"
           required
         />
 
         <input
           type="password"
-          placeholder="Senha"
+          placeholder="********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border border-gray-300 rounded p-2"
+          className="border border-zinc-800 rounded-lg p-2 text-black bg-yellow-400/80
+			focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:bg-zinc-200/80
+			transition-all"
           required
         />
 
@@ -101,16 +111,18 @@ export default function TestePage() {
             placeholder="Nome de usuário"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="border border-gray-300 rounded p-2"
+            className="border border-zinc-800 rounded-lg p-2 text-black bg-yellow-400/80
+			focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:bg-zinc-200/80
+			transition-all"
             required
           />
         )}
 
         <button
           type="submit"
-          className="bg-blue-600 text-white rounded p-2 hover:bg-blue-700 transition"
+          className="bg-zinc-800 text-yellow-500 rounded-lg p-2 hover:bg-zinc-950 transition font-semibold cursor-pointer"
         >
-          {isLogin ? "Entrar" : "Cadastrar"}
+          {isLogin ? "Sign In" : "Sign Up"}
         </button>
       </form>
 
@@ -118,7 +130,7 @@ export default function TestePage() {
         onClick={() => setIsLogin(!isLogin)}
         className="text-sm text-gray-600 underline"
       >
-        {isLogin ? "Criar nova conta" : "Já tenho uma conta"}
+        {isLogin ? "Create new account" : "I already have an account"}
       </button>
     </div>
   )

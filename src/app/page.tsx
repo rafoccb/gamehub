@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import { getGames } from "@/services/games";
 import { getDataRange } from "@/utils/lib";
 import Games from "./components/Games";
-import Link from "next/link";
+import LoginButton from "./components/LoginButton";
 
 export default async function Home() {
   const gamesBanner = await getGames({page_size: 3, tba: true, dates: getDataRange(180)});
@@ -36,11 +36,7 @@ export default async function Home() {
               Find your next game to play
             </p>
 
-            <div className="w-full flex items-center justify-center md:justify-start">
-              <Link href="/search" className="bg-yellow-400 text-zinc-800 font-semibold rounded-lg cursor-pointer w-full max-w-40 p-2 mt-6 flex items-center justify-center gap-1 hover:shadow-xl hover:shadow-yellow-500/30">
-                <Play size={16} color="black" strokeWidth={3}/> Get Started
-              </Link>
-            </div>
+            <LoginButton />
 
           </div>
           <div>

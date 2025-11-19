@@ -65,6 +65,25 @@ body {
   animation: blinkFade 0.3s ease-out forwards;
 }
 
+/* login animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.25s ease-out forwards;
+}
+
 /* search butons */
 /* retro */
 .retro {
@@ -372,5 +391,6 @@ body {
     transform: rotate(360deg);
   }
 }
+
 
 
