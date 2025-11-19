@@ -230,6 +230,7 @@ export default function Hub(){
                                                         <Trophy size={18} />
                                                     </div>
                                                 )}
+                                                <RatingIcon type={game.rating} />
                                             </div>
                                         )}
                                        
