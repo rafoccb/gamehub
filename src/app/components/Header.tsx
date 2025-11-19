@@ -40,7 +40,7 @@ export default function Header() {
                     <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/hub"><Gamepad2 /></Link></li>
                     {/* <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline"><Link href="/"><Heart /></Link></li> */}
                    
-                        {user ? (
+                        {user && (
                             <div className="flex items-center gap-2">
                                 <li className="text-black font-semibold text-sm md:text-base bg-yellow-500 rounded-full py-1 px-3 cursor-pointer flex items-center justify-center gap-2">
                                     <Link href="/login"><User2 strokeWidth={2} color="#000000"/></Link>
@@ -60,11 +60,12 @@ export default function Header() {
                                     <LogOut />
                                 </button>
                                 </div>
-                            ) : (
-                                <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline">
-                                    <Link href="/login"><User2 /></Link>
-                                </li>
                             )
+                            //  : (
+                            //     <li className="text-yellow-50 text-sm md:text-base hover:text-yellow-500 hover:underline">
+                            //         <Link href="/login"><User2 /></Link>
+                            //     </li>
+                            // )
                         }
                 </ul>
             </div>
