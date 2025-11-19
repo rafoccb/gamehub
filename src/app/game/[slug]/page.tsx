@@ -17,6 +17,7 @@ import AddFavorite from "./components/AddFavorite"
 import Requirements from "./components/Requirements"
 import BondButtons from "./components/BondButtons"
 import AddPlatinum from "./components/AddPlatinum"
+import UserRatings from "./components/UserRating"
 
 interface PageGameProps {
     params: {
@@ -86,6 +87,10 @@ export default async function PageGame ({params} : PageGameProps) {
                                 <BondButtons gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} gameDate={game.released} />
                             </div>
 
+                            <div className="w-full flex flex-col items-center justify-center">
+                                <span className="w-full mt-2 text-center text-sm">Did you like this game?</span>
+                                <UserRatings gameId={game.id} gameName={game.name} gameSlug={game.slug} gameImage={game.background_image} gameDate={game.released} />
+                            </div>
                             
                         </div>
                         <div className="w-full sm:ml-12 mt-4 hidden sm:inline-flex">

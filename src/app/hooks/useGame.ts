@@ -13,7 +13,7 @@ export interface UserGame {
     released?: string | null
     favorite?: boolean | null
     bond?: "Beaten" | "Wishlist" | "Playing" | "Dropped" | null
-    rating?: "Good" | "Regular" | "Bad" | null
+    rating?: "Very Good" | "Good" | "Regular" | "Bad" | "Very Bad" | null
     platinum?: boolean | null
     created_at?: string
     updated_at?: string

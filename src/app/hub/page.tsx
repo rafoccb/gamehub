@@ -10,6 +10,7 @@ import Image from "next/image"
 import Link from "next/link"
 import BondIcon from "./components/BondIcon"
 import { UserGame } from "../hooks/useGame"
+import RatingIcon from "./components/RatingIcon"
 
 type ViewMode = "grid" | "big" | "compact" | "details"
 
@@ -208,6 +209,7 @@ export default function Hub(){
                                                                 <Trophy size={18} />
                                                             </div>
                                                         )}
+                                                        <RatingIcon type={game.rating} />
                                                     </div>  
                                                 </div>
                                                 }
