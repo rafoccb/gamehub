@@ -3,7 +3,12 @@ import type { User } from "@supabase/supabase-js"
 import { useState, useEffect } from "react"
 import { supabase } from "@/api/supabaseClient"
 
-export default function Login() {
+interface LoginProps {
+  onSuccess?: () => void;
+}
+
+
+export default function Login({ onSuccess } : LoginProps) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [email, setEmail] = useState("")
@@ -75,6 +80,8 @@ export default function Login() {
       }
     }
   }
+
+  // if(onSuccess) onSuccess()
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-4">
