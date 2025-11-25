@@ -173,7 +173,7 @@ export default function Hub(){
                                     layout
                                     initial={{ opacity: 0, scale: 0.9, y: 10 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    exit={{ opacity: 0, scale: 0.55, y: -100 }}
                                     transition={{ duration: 0.25 }}
                                     className={`rounded-xl border overflow-hidden bg-zinc-900/60 backdrop-blur-sm cursor-pointer
                                         border-zinc-700 hover:border-rose-400/60 transition-all duration-300 hover:bg-rose-900/20
@@ -216,7 +216,7 @@ export default function Hub(){
                                         </div>
 
                                         {viewMode === "details" && (
-                                            <div className="absolute right-2 top-2 flex flex-col items-center justify-center gap-1">
+                                            <div className="absolute right-2 top-1 flex flex-col items-center justify-center gap-1">
                                                 <div className="">
                                                     <BondIcon type={game.bond} />
                                                 </div>

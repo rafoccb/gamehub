@@ -2,6 +2,7 @@
 import type { User } from "@supabase/supabase-js"
 import { useState, useEffect } from "react"
 import { supabase } from "@/api/supabaseClient"
+import { LogOut } from "lucide-react";
 
 interface LoginProps {
   onSuccess?: () => void;
@@ -37,16 +38,17 @@ export default function Login({ onSuccess } : LoginProps) {
 
   if (user) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <h2 className="text-xl font-bold">Bem-vindo, {user.user_metadata?.username || user.email}!</h2>
+      <div className="flex flex-col items-center justify-center h-screen gap-1">
+        <h2 className="text-xl font-bold text-black">Welcome, {user.user_metadata?.username || user.email}!</h2>
+        <span className="text-sm mt-2 text-center text-zinc-600">Logout?</span>
         <button
           onClick={async () => {
             await supabase.auth.signOut()
             setUser(null)
           }}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+          className="px-4 py-2 bg-zinc-800 text-white rounded hover:bg-zinc-700 transition cursor-pointer"
         >
-          Sair
+          <LogOut size={20}/>
         </button>
       </div>
     )
@@ -60,6 +62,10 @@ export default function Login({ onSuccess } : LoginProps) {
         email,
         password,
       })
+      if (!error) {
+        // chama o evento que fecha o modal
+        onSuccess?.()
+      }
       if (error) {
         alert("Erro ao entrar: " + error.message)
       } else {

@@ -72,6 +72,9 @@ export function useGame(
 
         const metadata = gameMetadata ?? metaRef.current
 
+        // atualizar estado para o React
+        setGameUser(prev => prev ? { ...prev, [type]: value } : prev)
+
 
         if(!gameUser) {
             if(!metadata) {
@@ -90,7 +93,9 @@ export function useGame(
 
             const { data, error } = await supabase
                 .from("user_games")
-                .insert(payload)
+                .upsert(payload, {
+                    onConflict: "user_id,game_id"
+                })
                 .select()
                 .single()
 
@@ -112,25 +117,25 @@ export function useGame(
 
     function setBond(bond: UserGame["bond"]) {
         // atualizar estado para o React
-        setGameUser(current => current ? {...current, bond } : current)
+        // setGameUser(current => current ? {...current, bond } : current)
         updateUserGame("bond", bond)
     }
 
     
     function setFavorite(favorite: boolean | null) {
-        setGameUser(current => current ? {...current, favorite } : current)
+        // setGameUser(current => current ? {...current, favorite } : current)
         updateUserGame("favorite", favorite)
     }
 
     
     function setRating(rating: UserGame["rating"]) {
-        setGameUser(current => current ? {...current, rating } : current)
+        // setGameUser(current => current ? {...current, rating } : current)
         updateUserGame("rating", rating)
     }
 
     
     function setPlatinum(platinum: boolean | null) {
-        setGameUser(current => current ? {...current, platinum } : current)
+        // setGameUser(current => current ? {...current, platinum } : current)
         updateUserGame("platinum", platinum)
     }
 
