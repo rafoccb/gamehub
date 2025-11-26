@@ -1,22 +1,55 @@
-import Image from "next/image";
+"use client"
 import { Banner } from "../types/type";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-export default function BannerCard({gamesBanner}: {gamesBanner : Banner[]}){
-  return (
-    <div className="font-sans mt-[64px] md:mt-0">
-          <div className="w-full p-4 flex items-center justify-center">
-              {gamesBanner.map((game, index) => (
-                  <div key={game.id} className="w-full max-w-sm flex flex-col items-center justify-center"> 
-                      <Image 
-                        src={game.background_image} 
-                        alt={game.name} 
-                        width={192}
-                        height={250}
-                        className={`w-full max-w-48 h-[200px] md:h-[250px] mt-8 md:mt-0 object-cover rounded-3xl shadow-zinc-950 shadow-lg ${index === 1 ? 'scale-150' : ''}`}
-                        />
-                  </div>
-              ))}
-          </div>
-      </div>
-    )
+const AUTO_DELAY = 5000;
+
+export default function BannerCard({ gamesBanner }: { gamesBanner: Banner[] }) {
+    const [displayList, setDisplayList] = useState(gamesBanner);
+
+	function rotationQueue() {
+		setDisplayList(prev => {
+			if (!prev || prev.length === 0) return prev;
+			return [...prev.slice(1), prev[0]] // ROTACIONA AS POSIÇÕES
+		});
+	}
+
+    useEffect(() => {
+        const interval = setInterval(() => rotationQueue(), AUTO_DELAY);
+        return () => clearInterval(interval);
+    }, []);
+	
+	const visibleGames = displayList.slice(0, 3)
+
+    return (
+        <div className="font-sans mt-[64px] md:mt-0">
+            <div className="w-full p-4 flex items-center justify-center gap-6">
+                
+                {visibleGames.map((game, index) => (
+                    <motion.div
+						key={game.id}
+						className={`
+							w-[192px] h-[250px] rounded-3xl bg-cover bg-center 
+                            shadow-lg transition-transform
+						`}
+						style={{ backgroundImage: `url(${game.background_image})` }}
+						animate={{
+							width: index === 1 ? 220 : 192,
+							opacity: index === 1 ? 1 : 0.45,
+							scale: index === 1 ? 1.5 : 1,
+							zIndex: index === 1 ? 10 : 1,
+						}}
+						transition={{
+							type: "spring",
+                            stiffness: 220,
+                            damping: 26,
+						}}
+					/>
+
+                ))}
+
+            </div>
+        </div>
+    );
 }

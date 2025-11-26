@@ -159,9 +159,7 @@ export default function Hub(){
                             </div>
                             )
                         }
-
-
-                        {/* Lista com animações */}
+                        
                         <motion.div
                             layout
                             className={`grid gap-4 ${VIEWMODE_STYLES[viewMode].container}`}

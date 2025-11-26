@@ -9,7 +9,7 @@ import Games from "./components/Games";
 import LoginButton from "./components/LoginButton";
 
 export default async function Home() {
-  const gamesBanner = await getGames({page_size: 3, tba: true, dates: getDataRange(180)});
+  const gamesBanner = await getGames({page_size: 12, tba: true, dates: getDataRange(180)});
   const games = await getGames({page_size: 12, tba: false, dates: getDataRange(60)});
 
   return (

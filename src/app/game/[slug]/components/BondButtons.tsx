@@ -47,7 +47,7 @@ export default function BondButtons({ gameId, gameName, gameSlug, gameImage, gam
                 />
             ))}
 
-            {bond ? 
+            {bond === "Beaten" ? 
                 <AddPlatinum gameId={gameId} />
                 : null
             }
