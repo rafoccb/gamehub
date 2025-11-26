@@ -39,6 +39,9 @@ export default function BannerCard({ gamesBanner }: { gamesBanner: Banner[] }) {
 							opacity: index === 1 ? 1 : 0.45,
 							scale: index === 1 ? 1.5 : 1,
 							zIndex: index === 1 ? 10 : 1,
+							boxShadow: index === 1
+									? "0 10px 25px rgba(255, 230, 80, 0.25)"
+									: "0 0 0px rgba(0, 0, 0, 0)",
 						}}
 						transition={{
 							type: "spring",
