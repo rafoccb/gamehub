@@ -10,31 +10,6 @@ export default async function SearchGames(){
     const random = games[randomBackgroundImage]
     const backgroundImage = random?.background_image
     const nameImage = random?.name
-    // console.log(backgroundImage, nameImage)
-
-    //  const handleFilterSelect = async (filter: string) => {
-    //     let params = {};
-
-    //     switch (filter) {
-    //     case "retro":
-    //         params = { dates: "1980-01-01,2000-01-01", ordering: "-rating" };
-    //         break;
-    //     case "popular":
-    //         params = { ordering: "-added" };
-    //         break;
-    //     case "top":
-    //         params = { ordering: "-metacritic" };
-    //         break;
-    //     case "recent":
-    //         params = { dates: "2023-01-01,2025-12-31", ordering: "-released" };
-    //         break;
-    //     }
-        
-    //     const response = await getGames(params);
-    //     const random = response[Math.floor(Math.random() * response.length)];
-    //     console.log("🎲 Random game:", random);
-    // }
-   
 
     return (
         <div className="w-full mt-12 flex flex-col items-center justify-center gap-4">
@@ -55,20 +30,7 @@ export default async function SearchGames(){
                     </h1>
                     <p className="text-gray-400 text-center mt-3">Select a random game with the buttons below: </p>
                     <div className="w-full flex flex-wrap items-center justify-center gap-3 mt-4">
-                        {/* <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Recent
-                        </button>
-                        <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Retro
-                        </button>
-                        <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Popular
-                        </button>
-                        <button className="w-full max-w-40 bg-white p-3 text-black rounded-xl shadow-gray-400 shadow-lg font-semibold">
-                            Well Rated
-                        </button> */}
-
-                         <SearchButtons />
+                        <SearchButtons />
                     </div>
                         
                     <div className="w-full mt-8 p-4">

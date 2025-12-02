@@ -18,6 +18,7 @@ import Requirements from "./components/Requirements"
 import BondButtons from "./components/BondButtons"
 import AddPlatinum from "./components/AddPlatinum"
 import UserRatings from "./components/UserRating"
+import Review from "./components/Review"
 
 interface PageGameProps {
     params: {
@@ -106,18 +107,18 @@ export default async function PageGame ({params} : PageGameProps) {
 
                         <Developers devs={game.developers} />
 
-                        <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-center sm:justify-start gap-1 mt-2"> 
+                        <p className="text-sm sm:text-base text-gray-400 flex items-center justify-center sm:justify-start gap-1 mt-2"> 
                             <Calendar size={14} /> {game.tba === true ? "TBA" : releaseDate}
                         </p>
                         <p className="text-sm sm:text-base text-gray-400 mt-1 flex items-center justify-center sm:justify-start gap-1"> 
                             <Clock3 size={14} /> {game.playtime} hours
                         </p>
 
-                        
                         <Genres genres={game.genres} />
                         
-
                         <Platforms platforms={game.platforms} />
+
+                        <Review gameId={game.id} />
 
                         {game.name === "League of Legends" && (
                             <div className="mt-4">

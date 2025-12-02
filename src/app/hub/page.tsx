@@ -9,16 +9,16 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import BondIcon from "./components/BondIcon"
-import { UserGame } from "../hooks/useGame"
 import RatingIcon from "./components/RatingIcon"
+import { Bond, Rating, useGameFilters } from "../hooks/useFilteredGames"
+import { UserGame } from "../hooks/useGame"
 
 type ViewMode = "grid" | "big" | "compact" | "details"
+type SelectedType = "bond" | "rating" | "platinum" | "favorite"
+type Sort = "name_asc" | "name_desc" |
+        "released_asc" | "released_desc" |
+        "created_at_asc" | "created_at_desc"
 
-type AppUser = {
-    id: string;
-    name?: string;
-    email?: string;
-} | null;
 
 const VIEWMODE_STYLES = {
     grid: {
@@ -50,47 +50,14 @@ const VIEWMODE_STYLES = {
 
 export default function Hub(){
     const [viewMode, setViewMode] = useState<ViewMode>("grid")
-    const [games, setGames] = useState<UserGame []>([])
-    const [total, setTotal] = useState(0)
-    const [visibleCount, setVisibleCount] = useState(18)
-    const [isLoading, setIsLoading] = useState(true)
-    const [user, setUser] = useState<AppUser>(null)
-
-    useEffect(()=> {
-        const fetchGames = async () => {
-            setIsLoading(true)
-            const { data: {user} } = await supabase.auth.getUser()
-            setUser(user)
-
-            if(!user) {
-                setGames([])
-                setTotal(0)
-                setIsLoading(false)
-                return
-            }
-
-            const {data, error } = await supabase
-                .from("user_games")
-                .select("*")
-                .eq("user_id", user.id)
-                .order("created_at", { ascending: false })
-            
-            if(error || !data) {
-                console.error("Error fetching games ", error)
-                setGames([])
-                setTotal(0)
-                setIsLoading(false)
-                return
-            }
-
-            setTotal(data.length)
-
-            const sliced = data.slice(0, visibleCount)
-            setGames(sliced)
-            setIsLoading(false)
-        }     
-        fetchGames()
-    }, [visibleCount])
+    // hook
+    const { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user } = useGameFilters()
+    const SELECT_TYPES: SelectedType[] = ["bond", "rating", "platinum", "favorite"]
+    const sortOptions: Sort[] = [
+        "name_asc", "name_desc",
+        "released_asc", "released_desc",
+        "created_at_asc", "created_at_desc"
+        ]
 
     useEffect(() => {
         const saved = localStorage.getItem("viewMode")
@@ -120,7 +87,7 @@ export default function Hub(){
                                 My Game Hub
                             </h1>
 
-                            {!isLoading && user && games.length > 0 &&  (
+                            {!loading && user && gameList.length > 0 &&  (
                                 <div className="flex gap-2">
                                     {modes.map(({ icon: Icon, mode }) => (
                                         <button
@@ -140,7 +107,103 @@ export default function Hub(){
                             )}
                         </div>
 
-                        {!isLoading && !user && (
+                        <div className="w-full flex justify-between items-center mt-8 mb-8">
+                            {/* filters */}
+                            <input
+                                type="search"
+                                placeholder="Type to search a game in your hub..."
+                                value={filter.search ?? ""}
+                                onChange={(e) => setFilter(prev => ({...prev, search: e.target.value || null}))}
+                                className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-grey-400 transition-all text-white bg-zinc-950 shadow-sm w-[320px]"
+                                />
+
+                            <div className="flex items-center justify-center gap-3">
+                                <select
+                                    value={filter.selectedType ?? ""}
+                                    onChange={(e) => {
+                                        const selected = e.target.value as SelectedType | "";
+                                        setFilter(prev => ({
+                                            ...prev,
+                                            selectedType: selected || null,
+                                            platinum: selected === "platinum" ? true : prev.platinum,
+                                            favorite: selected === "favorite" ? true : prev.favorite,
+                                        }));
+                                    }}
+                                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
+                                    
+                                    <option value="">Filter By: (All)</option>
+                                    <option value="bond">Bond</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="platinum">Platinum</option>
+                                    <option value="favorite">Favorite</option>
+                                </select>
+
+                                {/*if necessary  */}
+                                {filter.selectedType === "bond" && (
+                                    <select
+                                        onChange={(e) => {
+                                            const value = e.target.value as Bond | "";
+                                            setFilter(prev => ({
+                                            ...prev,
+                                            bond: value === "" ? null : value
+                                            }));
+                                        }}
+                                        className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
+                                        <option value="">Any</option>
+                                        <option value="Beaten">Beaten</option>
+                                        <option value="Wishlist">Wishlist</option>
+                                        <option value="Playing">Playing</option>
+                                        <option value="Dropped">Dropped</option>
+                                    </select>
+                                )}
+
+                                {filter.selectedType === "rating" && (
+                                    <select
+                                        onChange={(e) => {
+                                            const value = e.target.value as Rating | "";
+                                            setFilter(prev => ({
+                                            ...prev,
+                                            rating: value === "" ? null : value
+                                            }));
+                                        }}
+                                        className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
+
+                                        <option value="">Any</option>
+                                        <option value="Very Good">Very Good</option>
+                                        <option value="Good">Good</option>
+                                        <option value="Regular">Regular</option>
+                                        <option value="Bad">Bad</option>
+                                        <option value="Very Bad">Very Bad</option>
+                                    </select>
+                                )}
+
+                                <select
+                                    value={filter.sortBy ?? ""}
+                                    onChange={(e) => {
+                                        const value = e.target.value
+                                        setFilter(prev => ({
+                                        ...prev,
+                                        sortBy: sortOptions.includes(value as Sort)
+                                            ? value as Sort
+                                            : null
+                                        }))
+                                    }}
+                                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-48"
+                                >
+                                    <option value="">Order</option>
+                                    <option value="name_asc">Name A–Z</option>
+                                    <option value="name_desc">Name Z–A</option>
+                                    <option value="released_desc">Released newest</option>
+                                    <option value="released_asc">Released oldest</option>
+                                    <option value="created_at_desc">Added newest</option>
+                                    <option value="created_at_asc">Added oldest</option>
+                                </select>
+                            </div>                                       
+                            {/* end filters */}
+
+                        </div>
+
+                        {!loading && !user && (
                             <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
                                 <p>You must be logged in to see your game collection.</p>
 
@@ -150,7 +213,7 @@ export default function Hub(){
                             </div>
                         )}
 
-                        {!isLoading && games.length === 0 && user && (
+                        {!loading && gameList.length === 0 && user && !filter.search && (
                             <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
                                 <p> You don`t have any game interaction yet. How about start adding some? </p>
                                 <Link href="/search/" className="text-sm md:text-base bg-yellow-400 p-2 text-black font-semibold rounded-sm hover:brightness-110 hover:shadow-sm hover:shadow-yellow-200/20 mt-2"
@@ -159,13 +222,19 @@ export default function Hub(){
                             </div>
                             )
                         }
+
+                        {!loading && gameList.length === 0 && user && filter.search && (
+                            <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
+                                <p>No results found for <span className="text-yellow-600 font-semibold"> {filter.search} </span> . Try another search.</p>
+                            </div>
+                            )}
                         
                         <motion.div
                             layout
                             className={`grid gap-4 ${VIEWMODE_STYLES[viewMode].container}`}
                         >
                             <AnimatePresence>
-                            {games.map((game) => (
+                            {gameList.map((game) => (
                                 <motion.div
                                     key={game.game_id}
                                     layout
@@ -259,7 +328,7 @@ export default function Hub(){
                         </motion.div> 
 
                         <div className="w-full m-auto flex items-center justify-center">
-                            {!isLoading && visibleCount < total && (
+                            {!loading && visibleCount < total && (
                                 <button
                                     onClick={() => setVisibleCount(next => next + 12)}
                                     className="px-4 py-2 mt-4 bg-yellow-500 text-black font-semibold rounded-lg cursor-pointer hover:brightness-110 hover:shadow hover:shadow-yellow-600/20"
@@ -270,7 +339,7 @@ export default function Hub(){
                         </div>
 
                         <div className="w-full m-auto flex items-center justify-center py-12">
-                            {isLoading && 
+                            {loading && 
                                 <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin shadow-[0_0_15px_#eab308]"></div>
                             }
                         </div>
