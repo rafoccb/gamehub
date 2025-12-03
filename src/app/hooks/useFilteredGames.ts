@@ -24,12 +24,20 @@ type AppUser = {
 } | null;
 
 export function useGameFilters() {
-    const [filter, setFilter] = useState<Filters>({})
+    const storedSort = typeof window !== "undefined" ? localStorage.getItem("sortBy") : null;
+
+    const [filter, setFilter] = useState<Filters>({sortBy: storedSort ? (storedSort as Sort) : null})
     const [gameList, setGameList] = useState<UserGame []>([])
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<AppUser>(null)
     const [total, setTotal] = useState(0)
     const [visibleCount, setVisibleCount] = useState(20)
+
+    useEffect(() => {
+        if (filter.sortBy) {
+            localStorage.setItem("sortBy", filter.sortBy);
+        }
+    }, [filter.sortBy]);
 
     useEffect(() => {
         const getUser = async () => {

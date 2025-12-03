@@ -18,7 +18,7 @@ const pixelify = Pixelify_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Game Oracle mesmo?",
+  title: "Game Hub",
   description: "Find games you love. Discover new ones. Keep track of the games you played.",
 };
 
