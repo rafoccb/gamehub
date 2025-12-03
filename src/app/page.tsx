@@ -36,7 +36,7 @@ export default async function Home() {
               Find your next game to play
             </p>
 
-            <LoginButton />
+            <LoginButton justify="start" />
 
           </div>
           <div>

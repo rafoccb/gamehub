@@ -11,7 +11,7 @@ import Link from "next/link"
 import BondIcon from "./components/BondIcon"
 import RatingIcon from "./components/RatingIcon"
 import { Bond, Rating, useGameFilters } from "../hooks/useFilteredGames"
-import { UserGame } from "../hooks/useGame"
+import LoginButton from "../components/LoginButton"
 
 type ViewMode = "grid" | "big" | "compact" | "details"
 type SelectedType = "bond" | "rating" | "platinum" | "favorite"
@@ -107,111 +107,110 @@ export default function Hub(){
                             )}
                         </div>
 
-                        <div className="w-full flex justify-between items-center mt-8 mb-8">
-                            {/* filters */}
-                            <input
-                                type="search"
-                                placeholder="Type to search a game in your hub..."
-                                value={filter.search ?? ""}
-                                onChange={(e) => setFilter(prev => ({...prev, search: e.target.value || null}))}
-                                className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-grey-400 transition-all text-white bg-zinc-950 shadow-sm w-[320px]"
-                                />
+                        {!loading && user && gameList.length > 0 &&  (
+                            <div className="w-full flex justify-between items-center mt-8 mb-8">
+                                {/* filters */}
+                                <input
+                                    type="search"
+                                    placeholder="Type to search a game in your hub..."
+                                    value={filter.search ?? ""}
+                                    onChange={(e) => setFilter(prev => ({...prev, search: e.target.value || null}))}
+                                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-grey-400 transition-all text-white bg-zinc-950 shadow-sm w-[320px]"
+                                    />
 
-                            <div className="flex items-center justify-center gap-3">
-                                <select
-                                    value={filter.selectedType ?? ""}
-                                    onChange={(e) => {
-                                        const selected = e.target.value as SelectedType | "";
-                                        setFilter(prev => ({
-                                            ...prev,
-                                            selectedType: selected || null,
-                                            platinum: selected === "platinum" ? true : prev.platinum,
-                                            favorite: selected === "favorite" ? true : prev.favorite,
-                                        }));
-                                    }}
-                                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
-                                    
-                                    <option value="">Filter By: (All)</option>
-                                    <option value="bond">Bond</option>
-                                    <option value="rating">Rating</option>
-                                    <option value="platinum">Platinum</option>
-                                    <option value="favorite">Favorite</option>
-                                </select>
-
-                                {/*if necessary  */}
-                                {filter.selectedType === "bond" && (
+                                <div className="flex items-center justify-center gap-3">
                                     <select
+                                        value={filter.selectedType ?? ""}
                                         onChange={(e) => {
-                                            const value = e.target.value as Bond | "";
+                                            const selected = e.target.value as SelectedType | "";
                                             setFilter(prev => ({
-                                            ...prev,
-                                            bond: value === "" ? null : value
+                                                ...prev,
+                                                selectedType: selected || null,
+                                                platinum: selected === "platinum" ? true : prev.platinum,
+                                                favorite: selected === "favorite" ? true : prev.favorite,
                                             }));
                                         }}
                                         className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
-                                        <option value="">Any</option>
-                                        <option value="Beaten">Beaten</option>
-                                        <option value="Wishlist">Wishlist</option>
-                                        <option value="Playing">Playing</option>
-                                        <option value="Dropped">Dropped</option>
+                                        
+                                        <option value="">Filter By: (All)</option>
+                                        <option value="bond">Bond</option>
+                                        <option value="rating">Rating</option>
+                                        <option value="platinum">Platinum</option>
+                                        <option value="favorite">Favorite</option>
                                     </select>
-                                )}
 
-                                {filter.selectedType === "rating" && (
+                                    {/*if necessary  */}
+                                    {filter.selectedType === "bond" && (
+                                        <select
+                                            onChange={(e) => {
+                                                const value = e.target.value as Bond | "";
+                                                setFilter(prev => ({
+                                                ...prev,
+                                                bond: value === "" ? null : value
+                                                }));
+                                            }}
+                                            className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
+                                            <option value="">Any</option>
+                                            <option value="Beaten">Beaten</option>
+                                            <option value="Wishlist">Wishlist</option>
+                                            <option value="Playing">Playing</option>
+                                            <option value="Dropped">Dropped</option>
+                                        </select>
+                                    )}
+
+                                    {filter.selectedType === "rating" && (
+                                        <select
+                                            onChange={(e) => {
+                                                const value = e.target.value as Rating | "";
+                                                setFilter(prev => ({
+                                                ...prev,
+                                                rating: value === "" ? null : value
+                                                }));
+                                            }}
+                                            className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
+
+                                            <option value="">Any</option>
+                                            <option value="Very Good">Very Good</option>
+                                            <option value="Good">Good</option>
+                                            <option value="Regular">Regular</option>
+                                            <option value="Bad">Bad</option>
+                                            <option value="Very Bad">Very Bad</option>
+                                        </select>
+                                    )}
+
                                     <select
+                                        value={filter.sortBy ?? ""}
                                         onChange={(e) => {
-                                            const value = e.target.value as Rating | "";
+                                            const value = e.target.value
                                             setFilter(prev => ({
                                             ...prev,
-                                            rating: value === "" ? null : value
-                                            }));
+                                            sortBy: sortOptions.includes(value as Sort)
+                                                ? value as Sort
+                                                : null
+                                            }))
                                         }}
-                                        className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-40">
-
-                                        <option value="">Any</option>
-                                        <option value="Very Good">Very Good</option>
-                                        <option value="Good">Good</option>
-                                        <option value="Regular">Regular</option>
-                                        <option value="Bad">Bad</option>
-                                        <option value="Very Bad">Very Bad</option>
+                                        className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-48"
+                                    >
+                                        <option value="">Order</option>
+                                        <option value="name_asc">Name A–Z</option>
+                                        <option value="name_desc">Name Z–A</option>
+                                        <option value="released_desc">Released newest</option>
+                                        <option value="released_asc">Released oldest</option>
+                                        <option value="created_at_desc">Added newest</option>
+                                        <option value="created_at_asc">Added oldest</option>
                                     </select>
-                                )}
-
-                                <select
-                                    value={filter.sortBy ?? ""}
-                                    onChange={(e) => {
-                                        const value = e.target.value
-                                        setFilter(prev => ({
-                                        ...prev,
-                                        sortBy: sortOptions.includes(value as Sort)
-                                            ? value as Sort
-                                            : null
-                                        }))
-                                    }}
-                                    className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-white bg-zinc-950 shadow-sm w-48"
-                                >
-                                    <option value="">Order</option>
-                                    <option value="name_asc">Name A–Z</option>
-                                    <option value="name_desc">Name Z–A</option>
-                                    <option value="released_desc">Released newest</option>
-                                    <option value="released_asc">Released oldest</option>
-                                    <option value="created_at_desc">Added newest</option>
-                                    <option value="created_at_asc">Added oldest</option>
-                                </select>
-                            </div>                                       
+                                </div>                                       
                             {/* end filters */}
-
-                        </div>
+                            </div>
+                        )}
 
                         {!loading && !user && (
                             <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
                                 <p>You must be logged in to see your game collection.</p>
-
-                                <Link href="/teste" className="text-sm md:text-base bg-rose-600 p-2 text-white font-semibold rounded-sm hover:brightness-110 hover:shadow-sm hover:shadow-rose-200/20 mt-2">
-                                    Login
-                                </Link>
+                                <LoginButton justify="center" />
                             </div>
                         )}
+                       
 
                         {!loading && gameList.length === 0 && user && !filter.search && (
                             <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">

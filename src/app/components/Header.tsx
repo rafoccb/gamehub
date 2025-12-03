@@ -5,8 +5,10 @@ import Link from "next/link";
 import {useState, useEffect} from 'react'
 import {supabase} from '@/api/supabaseClient'
 import type {User} from "@supabase/supabase-js"
+// import { useRouter } from "next/navigation";
 
 export default function Header() {
+    // const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
 
     useEffect(() => {

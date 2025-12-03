@@ -27,17 +27,30 @@ export function useGameFilters() {
     const [filter, setFilter] = useState<Filters>({})
     const [gameList, setGameList] = useState<UserGame []>([])
     const [loading, setLoading] = useState(false)
-    // const [games, setGames] = useState<UserGame []>([])
     const [user, setUser] = useState<AppUser>(null)
     const [total, setTotal] = useState(0)
     const [visibleCount, setVisibleCount] = useState(20)
 
     useEffect(() => {
+        const getUser = async () => {
+            const { data } = await supabase.auth.getUser()
+            setUser(data?.user ?? null)
+        }
+
+        getUser()
+
+        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null)
+        })
+
+        return () => {
+            listener.subscription.unsubscribe()
+        }
+    }, [])
+
+    useEffect(() => {
         const fetchFilteredGames = async () => {
             setLoading(true)
-
-            const { data: {user} } = await supabase.auth.getUser()
-            setUser(user)
 
             if (!user) {
                 setGameList([]);
@@ -148,7 +161,7 @@ export function useGameFilters() {
         console.log(filter)
         // console.log(gameList)
 
-    }, [filter, visibleCount])
+    }, [filter, visibleCount, user])
 
     return { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user }
     
