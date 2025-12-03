@@ -15,6 +15,7 @@ export interface UserGame {
     bond?: "Beaten" | "Wishlist" | "Playing" | "Dropped" | null
     rating?: "Very Good" | "Good" | "Regular" | "Bad" | "Very Bad" | null
     platinum?: boolean | null
+    review?: string | null
     created_at?: string
     updated_at?: string
 }

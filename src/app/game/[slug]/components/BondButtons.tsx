@@ -1,5 +1,5 @@
 "use client"
-import { Flag, Gamepad2, Eye, Meh, LucideIcon } from "lucide-react"
+import { Flag, Gamepad2, Eye, LucideIcon, ThumbsDown } from "lucide-react"
 import GameButton from "./GameButton"
 import { BondType, useGame } from '@/app/hooks/useGame'
 import AddPlatinum from './AddPlatinum'
@@ -33,7 +33,7 @@ export default function BondButtons({ gameId, gameName, gameSlug, gameImage, gam
        { label: "Beaten", icon: Flag},
        { label: "Wishlist", icon: Eye },
        { label: "Playing", icon: Gamepad2 },
-       { label: "Dropped", icon: Meh },
+       { label: "Dropped", icon: ThumbsDown },
     ]
 
     return (

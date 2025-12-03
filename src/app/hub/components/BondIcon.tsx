@@ -1,10 +1,10 @@
-import { Eye, Flag, Gamepad2, LucideIcon, Meh } from "lucide-react"
+import { Eye, Flag, Gamepad2, LucideIcon, ThumbsDown } from "lucide-react"
 
 const bondIcons: Record<string, LucideIcon> = {
     Beaten: Flag,
     Wishlist: Eye,
     Playing: Gamepad2,
-    Dropped: Meh,
+    Dropped: ThumbsDown,
 } 
 
 export default function BondIcon({ type }: {type?: string | null | undefined}) {

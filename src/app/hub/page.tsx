@@ -2,7 +2,7 @@
 import { supabase } from "@/api/supabaseClient"
 import Footer from "@/app/components/Footer"
 import Header from "@/app/components/Header"
-import { Columns3, Heart, LayoutGrid, LayoutList, Square, Trophy } from "lucide-react"
+import { Columns3, Heart, LayoutGrid, LayoutList, PencilLine, Square, Trophy } from "lucide-react"
 import { useEffect, useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { motion } from "framer-motion"
@@ -276,29 +276,16 @@ export default function Hub(){
                                                             </div>
                                                         )}
                                                         <RatingIcon type={game.rating} />
+                                                        {game.review && (
+                                                            <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-stone-500/80 to-stone-700/70 text-white rounded-md shadow-[0_0_12px_rgba(99, 99, 99, 0.4)] backdrop-blur-sm mt-1">
+                                                                <PencilLine size={18} />
+                                                            </div>
+                                                        )}
                                                     </div>  
                                                 </div>
                                                 }
                                         </div>
 
-                                        {viewMode === "details" && (
-                                            <div className="absolute right-2 top-1 flex flex-col items-center justify-center gap-1">
-                                                <div className="">
-                                                    <BondIcon type={game.bond} />
-                                                </div>
-                                                {game.favorite && (
-                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-red-700/70 to-red-900/70 text-white rounded-md shadow-[0_0_12px_rgba(255,0,0,0.4)] backdrop-blur-sm mt-1">
-                                                        <Heart size={18} />
-                                                    </div>
-                                                )}
-                                                 {game.platinum && (
-                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-yellow-500/80 to-yellow-700/70 text-white rounded-md shadow-[0_0_12px_rgba(242, 242, 26,0.4)] backdrop-blur-sm mt-1">
-                                                        <Trophy size={18} />
-                                                    </div>
-                                                )}
-                                                <RatingIcon type={game.rating} />
-                                            </div>
-                                        )}
                                        
 
                                         <div className={`transition-all duration-300 ${
@@ -318,6 +305,30 @@ export default function Hub(){
                                                     
                                                 }
                                             </h2>
+
+                                            {viewMode === "details" && (
+                                            <div className="flex items-center justify-start gap-1 mt-2">
+                                                <div className="">
+                                                    <BondIcon type={game.bond} />
+                                                </div>
+                                                {game.favorite && (
+                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-red-700/70 to-red-900/70 text-white rounded-md shadow-[0_0_12px_rgba(255,0,0,0.4)] backdrop-blur-sm mt-1">
+                                                        <Heart size={18} />
+                                                    </div>
+                                                )}
+                                                 {game.platinum && (
+                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-yellow-500/80 to-yellow-700/70 text-white rounded-md shadow-[0_0_12px_rgba(242, 242, 26,0.4)] backdrop-blur-sm mt-1">
+                                                        <Trophy size={18} />
+                                                    </div>
+                                                )}
+                                                <RatingIcon type={game.rating} />
+                                                {game.review && (
+                                                    <div className="flex items-center justify-center gap-1 py-1 px-2 bg-gradient-to-br from-stone-500/80 to-stone-700/70 text-white rounded-md shadow-[0_0_12px_rgba(99, 99, 99, 0.4)] backdrop-blur-sm mt-1">
+                                                        <PencilLine size={18} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
 
                                         </div>
                                     </Link>
