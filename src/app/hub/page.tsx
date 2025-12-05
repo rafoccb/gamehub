@@ -109,7 +109,7 @@ export default function Hub(){
                         </div>
 
                         {!loading && user && gameList.length > 0 &&  (
-                            <div className="w-full flex flex-wrap justify-between items-center mt-8 mb-8 gap-4">
+                            <div className="w-full flex flex-col lg:flex-row justify-between items-center mt-8 mb-8 gap-4">
                                 {/* filters */}
                                 <input
                                     type="search"
@@ -119,7 +119,7 @@ export default function Hub(){
                                     className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-grey-400 transition-all text-white bg-zinc-950 shadow-sm w-[320px]"
                                     />
 
-                                <div className="flex items-center justify-center gap-3">
+                                <div className="flex flex-wrap items-center justify-center gap-3">
                                     <select
                                         value={filter.selectedType ?? ""}
                                         onChange={(e) => {
