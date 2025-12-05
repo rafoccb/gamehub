@@ -109,7 +109,7 @@ export default function Hub(){
                         </div>
 
                         {!loading && user && gameList.length > 0 &&  (
-                            <div className="w-full flex justify-between items-center mt-8 mb-8">
+                            <div className="w-full flex flex-wrap justify-between items-center mt-8 mb-8">
                                 {/* filters */}
                                 <input
                                     type="search"
