@@ -31,6 +31,7 @@ export function useGameFilters() {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<AppUser>(null)
     const [total, setTotal] = useState(0)
+    const [userTotalGames, setUserTotalGames] = useState(0)
     const [visibleCount, setVisibleCount] = useState(20)
 
     useEffect(() => {
@@ -69,7 +70,7 @@ export function useGameFilters() {
             
 
             try {
-                let query = supabase.from('user_games').select('*').eq("user_id", user.id)
+                let query = supabase.from('user_games').select('*', {count: "exact"}).eq("user_id", user.id)
                     .or("bond.not.is.null,rating.not.is.null,favorite.eq.true,platinum.eq.true");
 
                 // search query
@@ -138,7 +139,7 @@ export function useGameFilters() {
                     }
                 }
 
-                const { data, error} = await query
+                const { data, count, error} = await query
 
                 if(error || !data) {
                     console.error("Error fetching filtered games", error)
@@ -149,6 +150,7 @@ export function useGameFilters() {
                 }
 
                 setTotal(data.length);
+                setUserTotalGames(count ?? 0)
 
                 // PAGINAÇÃO (visibleCount)
                 const sliced = data.slice(0, visibleCount);
@@ -171,7 +173,7 @@ export function useGameFilters() {
 
     }, [filter, visibleCount, user])
 
-    return { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user }
+    return { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user, userTotalGames }
     
 }
 

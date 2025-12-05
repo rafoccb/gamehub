@@ -51,7 +51,7 @@ const VIEWMODE_STYLES = {
 export default function Hub(){
     const [viewMode, setViewMode] = useState<ViewMode>("grid")
     // hook
-    const { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user } = useGameFilters()
+    const { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user, userTotalGames } = useGameFilters()
     const SELECT_TYPES: SelectedType[] = ["bond", "rating", "platinum", "favorite"]
     const sortOptions: Sort[] = [
         "name_asc", "name_desc",
@@ -84,7 +84,8 @@ export default function Hub(){
                     <div className="w-full max-w-[1280px] min-h-screen text-zinc-200 px-6 py-10">
                         <div className="flex justify-between items-center mb-8">
                             <h1 className="text-xl sm:text-2xl font-semibold tracking-wide">
-                                My Game Hub
+                                My Game Hub ({userTotalGames} games) <br/>
+                                <span className="text-xs text-gray-500 text-start font-light">Showing 18 games</span>
                             </h1>
 
                             {!loading && user && gameList.length > 0 &&  (
