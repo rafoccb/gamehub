@@ -32,7 +32,7 @@ export function useGameFilters() {
     const [user, setUser] = useState<AppUser>(null)
     const [total, setTotal] = useState(0)
     const [userTotalGames, setUserTotalGames] = useState(0)
-    const [visibleCount, setVisibleCount] = useState(20)
+    const [visibleCount, setVisibleCount] = useState(24)
 
     useEffect(() => {
         if (filter.sortBy) {
