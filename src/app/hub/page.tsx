@@ -85,7 +85,7 @@ export default function Hub(){
                         <div className="flex justify-between items-center mb-8">
                             <h1 className="text-xl sm:text-2xl font-semibold tracking-wide">
                                 My Game Hub ({userTotalGames} games) <br/>
-                                <span className="text-xs text-gray-500 text-start font-light">Showing {total} games</span>
+                                <span className="text-xs text-gray-500 text-start font-light">Showing {visibleCount} games</span>
                             </h1>
 
                             {!loading && user && gameList.length > 0 &&  (
