@@ -52,7 +52,7 @@ export default function Hub(){
     const [viewMode, setViewMode] = useState<ViewMode>("grid")
     // hook
     const { gameList, loading, filter, setFilter, total, visibleCount, setVisibleCount, user, userTotalGames } = useGameFilters()
-    const SELECT_TYPES: SelectedType[] = ["bond", "rating", "platinum", "favorite"]
+    // const SELECT_TYPES: SelectedType[] = ["bond", "rating", "platinum", "favorite"]
     const sortOptions: Sort[] = [
         "name_asc", "name_desc",
         "released_asc", "released_desc",
@@ -85,7 +85,7 @@ export default function Hub(){
                         <div className="flex justify-between items-center mb-8">
                             <h1 className="text-xl sm:text-2xl font-semibold tracking-wide">
                                 My Game Hub ({userTotalGames} games) <br/>
-                                <span className="text-xs text-gray-500 text-start font-light">Showing 24 games or less</span>
+                                <span className="text-xs text-gray-500 text-start font-light">Showing {total} games</span>
                             </h1>
 
                             {!loading && user && gameList.length > 0 &&  (
@@ -108,7 +108,7 @@ export default function Hub(){
                             )}
                         </div>
 
-                        {!loading && user && gameList.length > 0 &&  (
+                        {/* {!loading && user && gameList.length > 0 &&  ( */}
                             <div className="w-full flex flex-col lg:flex-row justify-between items-center mt-8 mb-8 gap-4">
                                 {/* filters */}
                                 <input
@@ -117,7 +117,7 @@ export default function Hub(){
                                     value={filter.search ?? ""}
                                     onChange={(e) => setFilter(prev => ({...prev, search: e.target.value || null}))}
                                     className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-grey-400 transition-all text-white bg-zinc-950 shadow-sm w-[320px]"
-                                    />
+                                />
 
                                 <div className="flex flex-wrap items-center justify-center gap-3">
                                     <select
@@ -203,7 +203,7 @@ export default function Hub(){
                                 </div>                                       
                             {/* end filters */}
                             </div>
-                        )}
+                        {/* )} */}
 
                         {!loading && !user && (
                             <div className="w-full m-auto py-8 flex flex-col items-center justify-center gap-2">
