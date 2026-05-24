@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎮 Game Hub
 
-## Getting Started
+> Plataforma de organização e descoberta de jogos — gerencie sua biblioteca pessoal, encontre novos títulos e acompanhe seu progresso.
 
-First, run the development server:
+**🚀 [Ver projeto ao vivo](https://gmeprojctfp.vercel.app)**
 
+---
+
+## 🎯 O Problema
+
+Gamers com bibliotecas extensas (Steam, Epic, GOG, físicos) não têm uma ferramenta centralizada para:
+- Organizar jogos já jogados vs. backlog
+- Filtrar por gênero, plataforma, nota
+- Descobrir novos jogos baseados em preferências
+
+---
+
+## 💡 A Solução
+
+Sistema full-stack com:
+- ✅ Autenticação segura (Supabase Auth)
+- ✅ CRUD completo de biblioteca pessoal
+- ✅ Integração com RAWG API (600k+ jogos)
+- ✅ 4 modos de visualização (grid, lista, compacto, detalhado)
+- ✅ Filtros multi-critério e ordenação dinâmica
+- ✅ Sistema de descoberta com recomendações aleatórias
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- React Hook Form
+
+**Backend & Database:**
+- Supabase (PostgreSQL)
+- RAWG API
+- Server Actions
+
+**Deploy & Tools:**
+- Vercel
+- Git/GitHub
+
+---
+
+## 🚀 Rodando Localmente
+
+[instruções de instalação]
+
+## 🚀 Rodando Localmente
+
+### Pré-requisitos
+
+- Node.js 18+ 
+- npm ou yarn
+- Conta no [Supabase](https://supabase.com) (gratuito)
+- API Key da [RAWG](https://rawg.io/apidocs) (gratuito)
+
+### Instalação
+
+1. Clone o repositório
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/rafoccb/gamehub.git
+cd gamehub
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure as variáveis de ambiente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Crie um arquivo `.env.local` na raiz do projeto:
 
-## Learn More
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url_do_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_publica_do_supabase
+NEXT_PUBLIC_RAWG_API_KEY=sua_chave_da_rawg
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Execute o projeto
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Configuração do Supabase
 
-## Deploy on Vercel
+1. Crie um projeto no [Supabase](https://supabase.com)
+2. Copie as credenciais em `Project Settings > API`
+3. Execute o schema SQL (disponível em `/supabase/schema.sql` — se você tiver)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🎓 Aprendizados
+
+- Otimização de chamadas de API com debounce e cache
+- Implementação de autenticação stateful com Supabase
+- Design system escalável com Tailwind
+- Server-side rendering e ISR no Next.js 14
