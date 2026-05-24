@@ -50,8 +50,6 @@ Sistema full-stack com:
 
 [instruções de instalação]
 
-## 🚀 Rodando Localmente
-
 ### Pré-requisitos
 
 - Node.js 18+ 
