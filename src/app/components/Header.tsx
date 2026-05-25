@@ -45,7 +45,7 @@ export default function Header() {
                         {user && (
                             <div className="flex items-center gap-2">
                                 <li className="text-black font-semibold text-sm md:text-base bg-yellow-500 rounded-full py-1 px-3 cursor-pointer flex items-center justify-center gap-2">
-                                    <Link href="/login"><User2 strokeWidth={2} color="#000000"/></Link>
+                                    <User2 strokeWidth={2} color="#000000"/>
                                     <span>
                                         {user.user_metadata?.username || user.email}
                                     </span>

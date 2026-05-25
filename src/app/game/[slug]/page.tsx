@@ -58,7 +58,7 @@ export default async function PageGame ({params} : PageGameProps) {
                 <div className="w-full max-h-[500px] relative md:max-h-[400px] rounded-xl">
                     <div className="inset-0 bg-gradient-to-t from-yellow-950/40 via-zinc-900/40 to-rose-600/30 absolute md:rounded-xl"></div>
                     <Image 
-                        src={game.background_image_additional?.length > 0 ? game.background_image_additional : game.background_image}
+                        src={game.background_image_additional?.length > 0 ? game.background_image_additional : game.background_image || "https://www.holoimage.net/images/no-image.jpg"}
                         alt={game.name}
                         width={1280}
                         height={500}
@@ -74,7 +74,7 @@ export default async function PageGame ({params} : PageGameProps) {
                                 </span>
                             </div>
                             <Image
-                                src={game.background_image}
+                                src={game.background_image || "https://www.holoimage.net/images/no-image.jpg"}
                                 alt={game.name}
                                 width={200}
                                 height={400}

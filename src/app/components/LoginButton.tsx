@@ -45,7 +45,7 @@ export default function LoginButton({justify}: JustifyProps) {
                         >
                             <button
                                 onClick={handleCloseLogin}
-                                className="absolute top-12 right-6 text-zinc-950 p-1 border-2 border-zinc-950 rounded-lg cursor-pointer hover:bg-zinc-950 hover:text-yellow-400 transition-colors"
+                                className="absolute top-24 right-10 text-zinc-950 p-1 border-2 border-zinc-950 rounded-lg cursor-pointer hover:bg-zinc-950 hover:text-yellow-400 transition-colors"
                             >
                                 <X size={24}/>
                             </button>

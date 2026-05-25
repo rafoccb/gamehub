@@ -48,7 +48,7 @@
 			}}
 			className="px-4 py-2 bg-zinc-800 text-white rounded hover:bg-zinc-700 transition cursor-pointer"
 			>
-			<LogOut size={20}/>
+				<LogOut size={20}/>
 			</button>
 		</div>
 		)
@@ -96,7 +96,7 @@
 			<form onSubmit={handleSubmit} className="flex flex-col gap-3 w-64">
 				<input
 					type="email"
-					placeholder="Your e-mail"
+					placeholder="user@gamehub.com"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					className="border border-zinc-800 rounded-lg p-2 text-black bg-yellow-400/80
@@ -107,7 +107,7 @@
 
 				<input
 					type="password"
-					placeholder="********"
+					placeholder="gamehub"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					className="border border-zinc-800 rounded-lg p-2 text-black bg-yellow-400/80
